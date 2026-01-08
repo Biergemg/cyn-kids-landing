@@ -1,6 +1,10 @@
 ---
 import { Image } from 'astro:assets';
-import smartbioticsImage from '../../assets/images/SMARTBIOTICS.png';
+import smartbioticsImage from '../../assets/images/smartbiotics.webp';
+
+interface Props {
+  class?: string;
+}
 
 const { class: className } = Astro.props;
 ---

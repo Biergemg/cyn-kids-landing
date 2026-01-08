@@ -1,9 +1,18 @@
 ---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+  schema?: object | object[];
+}
+
 const {
   title,
   description,
-  image = '/images/product.png', // Default image
-  noindex = false
+  image = '/images/product.png',
+  noindex = false,
+  schema
 } = Astro.props
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href
@@ -26,12 +35,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={image} />
 
-<script type="application/ld+json">
-{JSON.stringify({
+<!-- Organization Schema (Global) -->
+<script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "CYN KIDS", // Branding name
+  "name": "CYN KIDS",
   "url": Astro.site,
   "logo": new URL('/favicon.png', Astro.site).href
-})}
-</script>
+})} />
+
+<!-- Custom Schema (Breadcrumbs, Speakable, etc.) -->
+{schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}

@@ -3,6 +3,16 @@ import DynamicSEO from '../components/seo/DynamicSEO.astro';
 import Analytics from '../components/analytics/Analytics.astro';
 import Disclaimer from '../components/legal/Disclaimer.astro';
 
+interface Props {
+  seo: {
+    title: string;
+    description: string;
+    image?: string;
+    noindex?: boolean;
+    schema?: object | object[];
+  };
+}
+
 const { seo } = Astro.props;
 ---
 
@@ -17,6 +27,10 @@ const { seo } = Astro.props;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
+    <!-- Preconnect for Affiliate (Vital Health) -->
+    <link rel="preconnect" href="https://mx.vitalhealthglobal.com">
+    <link rel="dns-prefetch" href="https://mx.vitalhealthglobal.com">
+
     <!-- SEO & Metadata -->
     <DynamicSEO {...seo} />
     
@@ -26,19 +40,19 @@ const { seo } = Astro.props;
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     
-    <!-- Analytics (GA4) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B45TK7GBBF"></script>
-    <script is:inline>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        
-        // Configuración inicial
-        gtag('config', 'G-B45TK7GBBF');
-        
-        // Hacer tracking disponible globalmente
-        window.gtag = gtag;
-    </script>
+    <!-- Analytics (GA4) - Silent Fail if no ID -->
+    {import.meta.env.PUBLIC_GA_MEASUREMENT_ID && (
+        <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}`}></script>
+            <script is:inline define:vars={{ GA_ID: import.meta.env.PUBLIC_GA_MEASUREMENT_ID }}>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', GA_ID);
+                window.gtag = gtag;
+            </script>
+        </>
+    )}
     
     <Analytics />
 </head>

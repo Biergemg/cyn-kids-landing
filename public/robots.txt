@@ -1,3 +1,11 @@
 User-agent: *
 Allow: /
-Sitemap: https://cynkids.com/sitemap-index.xml
+Disallow: /404
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: AnthropicBot
+Allow: /
+
+Sitemap: https://einsteinkids.cynponceglz.com/sitemap-index.xml

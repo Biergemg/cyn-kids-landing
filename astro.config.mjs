@@ -3,7 +3,11 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  site: 'https://cynkids.com', // Placeholder, user can update
+  site: 'https://einsteinkids.cynponceglz.com',
+  trailingSlash: 'never',
+  build: {
+    inlineStylesheets: 'auto',
+  },
   integrations: [
     sitemap({
       filter: (page) =>
