@@ -11,5 +11,16 @@ export default defineConfig({
         !page.includes('/privado')
     }),
     tailwind()
-  ]
+  ],
+  vite: {
+    build: {
+      rollupOptions: {
+        onwarn(warning, warn) {
+          // Silenciar warning específico de Astro sobre imports no usados
+          if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.source?.includes('@astrojs/internal-helpers')) return;
+          warn(warning);
+        }
+      }
+    }
+  }
 });
