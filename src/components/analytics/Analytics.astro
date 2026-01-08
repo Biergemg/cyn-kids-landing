@@ -1,4 +1,11 @@
 <script>
   import { initAnalytics } from '../../lib/analytics/init';
+  import { trackAffiliateClick } from '../../lib/analytics/events/affiliateClick';
+  
   initAnalytics();
+  
+  // Expose tracking function globally for onclick handlers
+  if (typeof window !== 'undefined') {
+    window.trackAffiliateClick = trackAffiliateClick;
+  }
 </script>
