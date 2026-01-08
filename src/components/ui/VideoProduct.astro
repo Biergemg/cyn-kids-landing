@@ -1,0 +1,26 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class={`relative w-full max-w-[400px] md:max-w-[480px] mx-auto ${className}`}>
+    <video 
+        src="/videos/smartbiotics.mp4" 
+        class="w-full h-auto object-contain drop-shadow-sm rounded-xl"
+        autoplay
+        loop
+        muted
+        playsinline
+        poster="/images/SMARTBIOTICS.png"
+    >
+        <!-- Fallback para navegadores sin soporte de video -->
+        <img 
+            src="/images/SMARTBIOTICS.png" 
+            alt="Suplemento infantil Smartbiotics para microbiota y equilibrio digestivo"
+            class="w-full h-auto object-contain drop-shadow-sm"
+        />
+    </video>
+</div>

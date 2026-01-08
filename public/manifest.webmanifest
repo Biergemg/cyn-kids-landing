@@ -1,0 +1,15 @@
+{
+    "name": "CYN KIDS - Nutrición Educativa",
+    "short_name": "CYN KIDS",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FAFAF9",
+    "theme_color": "#2F3E46",
+    "icons": [
+        {
+            "src": "/apple-touch-icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+}

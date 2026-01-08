@@ -1,0 +1,42 @@
+---
+import ButtonCTA from './ButtonCTA.astro';
+
+interface Props {
+  href: string;
+}
+
+const { href } = Astro.props;
+---
+
+<div 
+  id="sticky-mobile-cta" 
+  class="fixed bottom-6 left-4 right-4 z-50 md:hidden translate-y-24 opacity-0 transition-all duration-500 ease-out py-2"
+>
+  <div class="bg-white/90 backdrop-blur-md p-1.5 rounded-full shadow-2xl border border-primary/10">
+      <ButtonCTA 
+        href={href} 
+        class="w-full shadow-none text-base py-3"
+        onclick="if(window.trackAffiliateClick) window.trackAffiliateClick('microbiota-mix', 'sticky_mobile', this.href)"
+      >
+        Comprar Smartbiotics
+      </ButtonCTA>
+  </div>
+</div>
+
+<script>
+  const stickyCTA = document.getElementById('sticky-mobile-cta');
+  
+  // Show after scrolling past hero (approx 600px)
+  window.addEventListener('scroll', () => {
+    if (!stickyCTA) return;
+    
+    const scrollPosition = window.scrollY;
+    const triggerPoint = window.innerHeight * 0.7; // 70% of viewport height
+    
+    if (scrollPosition > triggerPoint) {
+      stickyCTA.classList.remove('translate-y-24', 'opacity-0');
+    } else {
+      stickyCTA.classList.add('translate-y-24', 'opacity-0');
+    }
+  });
+</script>

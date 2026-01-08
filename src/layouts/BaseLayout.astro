@@ -1,0 +1,57 @@
+---
+import DynamicSEO from '../components/seo/DynamicSEO.astro';
+import Analytics from '../components/analytics/Analytics.astro';
+import Disclaimer from '../components/legal/Disclaimer.astro';
+
+const { seo } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Fonts: Inter (Clinical & Clean) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- SEO & Metadata -->
+    <DynamicSEO {...seo} />
+    
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    
+    <!-- Analytics (GA4) -->
+    <!-- TODO: Reemplazar 'G-MEASUREMENT_ID' con tu ID real de Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MEASUREMENT_ID"></script>
+    <script is:inline>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        
+        // Configuración inicial
+        gtag('config', 'G-MEASUREMENT_ID');
+        
+        // Hacer tracking disponible globalmente
+        window.gtag = gtag;
+    </script>
+    
+    <Analytics />
+</head>
+<body class="bg-[#FAFAF9] bg-gradient-to-b from-[#FAFAF9] to-[#F0F2F5] min-h-screen text-text-primary antialiased selection:bg-secondary/20 selection:text-primary">
+    
+    <main class="w-full">
+        <slot />
+    </main>
+
+    <footer class="pb-12">
+        <Disclaimer />
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+---
+import { Image } from 'astro:assets';
+import smartbioticsImage from '../../assets/images/SMARTBIOTICS.png';
+
+const { class: className } = Astro.props;
+---
+
+<div class={`relative w-full max-w-[280px] md:max-w-[320px] mx-auto ${className}`}>
+    <Image 
+        src={smartbioticsImage} 
+        alt="Suplemento infantil Smartbiotics para microbiota y equilibrio digestivo" 
+        class="w-full h-auto object-contain drop-shadow-sm"
+        width={320}
+        height={320}
+        loading="eager"
+    />
+</div>
