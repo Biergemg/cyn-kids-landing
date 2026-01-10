@@ -23,9 +23,10 @@ export const trackAffiliateClick = (
         window.fbq('track', 'InitiateCheckout', {
             content_name: product,        // 'microbiota-mix'
             content_category: 'Affiliate',
-            content_ids: ['smartbiotics-kids'], 
-            status: position,             // 'hero', 'mid', 'footer'
-            currency: 'MXN'               // Moneda por defecto
+            content_ids: ['smartbiotics-kids'],
+            value: 599.00,                // Valor estimado del producto en MXN
+            currency: 'MXN',              // Moneda
+            status: position              // 'hero', 'mid', 'footer'
         });
     }
 }
