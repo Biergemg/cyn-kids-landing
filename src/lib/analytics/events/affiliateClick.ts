@@ -24,7 +24,7 @@ export const trackAffiliateClick = (
             content_name: product,        // 'microbiota-mix'
             content_category: 'Affiliate',
             content_ids: ['smartbiotics-kids'],
-            value: 599.00,                // Valor estimado del producto en MXN
+            value: 600.00,                // Valor estimado del producto en MXN
             currency: 'MXN',              // Moneda
             status: position              // 'hero', 'mid', 'footer'
         });
