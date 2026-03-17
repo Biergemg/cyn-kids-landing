@@ -1,0 +1,307 @@
+---
+const leadWebhookUrl = process.env.NEXT_PUBLIC_LEAD_WEBHOOK_URL ?? '';
+const telegramBotUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? '';
+---
+
+<section id="lead-form" class="py-20 px-4 bg-white border-y border-gray-100">
+  <div class="max-w-5xl mx-auto grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-start">
+    <div class="space-y-6">
+      <div>
+        <span class="bg-secondary/10 text-secondary font-bold px-4 py-2 rounded-full inline-block mb-4">INVITACION ESPECIAL</span>
+        <h2 class="text-3xl md:text-5xl font-bold text-primary mb-4">Clase GRATUITA</h2>
+        <h3 class="text-2xl md:text-3xl text-primary/80">Cuerpo calmado, cerebro enfocado</h3>
+        <p class="mt-4 text-xl text-text-secondary">
+          Dejanos tus datos para apartar tu lugar y el siguiente paso sera continuar por Telegram.
+        </p>
+      </div>
+
+      <div class="bg-gray-50 rounded-3xl p-8 md:p-10 shadow-sm border border-gray-100">
+        <h4 class="text-xl font-bold text-primary mb-6">En esta clase aprenderas:</h4>
+        <div class="grid gap-4">
+          {[
+            'Por que muchos berrinches no son emocionales, sino fisiologicos',
+            'Como el intestino influye directamente en el cerebro y la conducta',
+            'El efecto real del azucar y los ultraprocesados en la concentracion',
+            'Que pequenos cambios si hacen diferencia sin extremos',
+            'Como empezar a apoyar a tu hijo desde la raiz'
+          ].map((item) => (
+            <div class="flex gap-3 items-start">
+              <span class="text-green-500 font-bold text-xl">+</span>
+              <p class="text-text-secondary">{item}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p class="text-sm text-text-secondary/70 italic border p-4 rounded-lg bg-gray-50">
+        <strong>Importante:</strong> Esta clase es informativa y educativa. No es una consulta medica ni una terapia. Es conocimiento practico para padres reales.
+      </p>
+    </div>
+
+    <div class="relative">
+      <div class="absolute inset-0 bg-secondary/10 blur-3xl rounded-full -z-10"></div>
+
+      <div
+        class="lead-form-card bg-white rounded-3xl border border-primary/10 shadow-[0_20px_60px_rgba(47,62,70,0.12)] p-6 md:p-8"
+        data-lead-capture
+      >
+        <div data-form-view>
+          <div class="mb-6">
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">Reserva tu lugar</p>
+            <h4 class="text-2xl font-bold text-primary mt-2">Completa tus datos</h4>
+            <p class="text-text-secondary mt-2">Te contactaremos con el siguiente paso para continuar por Telegram.</p>
+          </div>
+
+          <form class="space-y-5" data-lead-form novalidate>
+            <div>
+              <label class="block text-sm font-semibold text-primary mb-2" for="lead-name">Nombre</label>
+              <input
+                id="lead-name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                class="w-full rounded-2xl border border-primary/15 bg-[#FAFAF9] px-4 py-3 text-text-primary outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                placeholder="Tu nombre"
+                required
+              />
+              <p class="text-sm text-red-600 mt-2 hidden" data-error-for="name"></p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-primary mb-2" for="lead-whatsapp">WhatsApp</label>
+              <input
+                id="lead-whatsapp"
+                name="whatsapp"
+                type="tel"
+                autocomplete="tel"
+                inputmode="tel"
+                class="w-full rounded-2xl border border-primary/15 bg-[#FAFAF9] px-4 py-3 text-text-primary outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                placeholder="Tu numero con lada"
+                required
+              />
+              <p class="text-sm text-red-600 mt-2 hidden" data-error-for="whatsapp"></p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-primary mb-2" for="lead-email">Email</label>
+              <input
+                id="lead-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                class="w-full rounded-2xl border border-primary/15 bg-[#FAFAF9] px-4 py-3 text-text-primary outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                placeholder="tu@email.com"
+                required
+              />
+              <p class="text-sm text-red-600 mt-2 hidden" data-error-for="email"></p>
+            </div>
+
+            <p class="text-sm text-red-600 hidden" data-form-error></p>
+
+            <button
+              type="submit"
+              class="w-full inline-flex items-center justify-center gap-3 bg-secondary text-white font-bold text-lg px-8 py-4 rounded-full hover:bg-[#43655d] transition-all transform hover:scale-[1.01] shadow-lg disabled:cursor-not-allowed disabled:opacity-70"
+              data-submit-button
+            >
+              <span data-submit-label>Enviar y continuar</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="hidden" data-success-view>
+          <div class="rounded-3xl bg-primary text-white p-6 md:p-8">
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-secondary-light">Siguiente paso</p>
+            <h4 class="text-3xl font-bold mt-3">Continua por Telegram</h4>
+            <p class="mt-4 text-lg text-white/85" data-success-message>
+              Recibimos tus datos correctamente. Ahora abre Telegram para continuar con el siguiente paso.
+            </p>
+            <a
+              href={`https://t.me/${telegramBotUsername}`}
+              class="mt-8 inline-flex w-full items-center justify-center rounded-full bg-secondary px-6 py-4 text-lg font-bold text-white transition hover:bg-[#43655d]"
+              data-telegram-link
+            >
+              Abrir Telegram
+            </a>
+            <p class="mt-4 text-sm text-white/75">Si ya tienes Telegram abierto, el boton te llevara directo al bot.</p>
+          </div>
+
+          <div class="mt-5 rounded-2xl border border-secondary/20 bg-secondary/5 p-5 text-text-secondary">
+            <p class="font-semibold text-primary" data-status-title>Tus datos ya quedaron registrados en este paso.</p>
+            <p class="mt-2" data-status-detail>Abre Telegram para recibir la continuacion del proceso.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script
+  is:inline
+  define:vars={{ leadWebhookUrl, telegramBotUsername }}
+>
+  const root = document.querySelector('[data-lead-capture]');
+
+  if (root) {
+    const form = root.querySelector('[data-lead-form]');
+    const formView = root.querySelector('[data-form-view]');
+    const successView = root.querySelector('[data-success-view]');
+    const submitButton = root.querySelector('[data-submit-button]');
+    const submitLabel = root.querySelector('[data-submit-label]');
+    const formError = root.querySelector('[data-form-error]');
+    const telegramLink = root.querySelector('[data-telegram-link]');
+    const successMessage = root.querySelector('[data-success-message]');
+    const statusTitle = root.querySelector('[data-status-title]');
+    const statusDetail = root.querySelector('[data-status-detail]');
+
+    const fieldErrors = {
+      name: root.querySelector('[data-error-for="name"]'),
+      whatsapp: root.querySelector('[data-error-for="whatsapp"]'),
+      email: root.querySelector('[data-error-for="email"]')
+    };
+
+    const defaultTelegramUrl = telegramBotUsername
+      ? `https://t.me/${telegramBotUsername}`
+      : '#';
+
+    const validators = {
+      name(value) {
+        if (!value.trim()) return 'Ingresa tu nombre.';
+        if (value.trim().length < 2) return 'Escribe un nombre valido.';
+        return '';
+      },
+      whatsapp(value) {
+        const normalized = value.replace(/[^\d+]/g, '');
+        if (!normalized) return 'Ingresa tu WhatsApp.';
+        if (normalized.replace(/\D/g, '').length < 8) return 'Escribe un numero valido.';
+        return '';
+      },
+      email(value) {
+        if (!value.trim()) return 'Ingresa tu email.';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) return 'Escribe un email valido.';
+        return '';
+      }
+    };
+
+    const setFieldError = (field, message) => {
+      const errorNode = fieldErrors[field];
+      if (!errorNode) return;
+      errorNode.textContent = message;
+      errorNode.classList.toggle('hidden', !message);
+    };
+
+    const validateForm = (formData) => {
+      const errors = {
+        name: validators.name(formData.name),
+        whatsapp: validators.whatsapp(formData.whatsapp),
+        email: validators.email(formData.email)
+      };
+
+      Object.entries(errors).forEach(([field, message]) => setFieldError(field, message));
+      return !Object.values(errors).some(Boolean);
+    };
+
+    const showResultScreen = ({ ok, telegramUrl }) => {
+      if (telegramLink) telegramLink.href = telegramUrl || defaultTelegramUrl;
+      if (formView) formView.classList.add('hidden');
+      if (successView) successView.classList.remove('hidden');
+
+      if (ok) {
+        if (successMessage) {
+          successMessage.textContent = 'Recibimos tus datos correctamente. Ahora abre Telegram para continuar con el siguiente paso.';
+        }
+        if (statusTitle) {
+          statusTitle.textContent = 'Tus datos ya quedaron registrados en este paso.';
+        }
+        if (statusDetail) {
+          statusDetail.textContent = 'Abre Telegram para recibir la continuacion del proceso.';
+        }
+      } else {
+        if (successMessage) {
+          successMessage.textContent = 'No pudimos confirmar tu registro automaticamente, pero puedes continuar ahora mismo por Telegram.';
+        }
+        if (statusTitle) {
+          statusTitle.textContent = 'Continua por Telegram para terminar el proceso.';
+        }
+        if (statusDetail) {
+          statusDetail.textContent = 'Continua por Telegram y ahi te ayudamos a completar el proceso si hace falta.';
+        }
+      }
+    };
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const data = {
+        name: form.name.value.trim(),
+        whatsapp: form.whatsapp.value.trim(),
+        email: form.email.value.trim()
+      };
+
+      if (formError) {
+        formError.classList.add('hidden');
+        formError.textContent = '';
+      }
+
+      if (!validateForm(data)) return;
+
+      const payload = {
+        name: data.name,
+        phone: data.whatsapp,
+        email: data.email,
+        source: 'landing_vercel',
+        page_url: window.location.href,
+        submitted_at: new Date().toISOString(),
+        send_telegram_welcome: false
+      };
+
+      submitButton?.setAttribute('disabled', 'true');
+      if (submitLabel) submitLabel.textContent = 'Enviando...';
+
+      try {
+        if (!leadWebhookUrl) {
+          throw new Error('Missing NEXT_PUBLIC_LEAD_WEBHOOK_URL');
+        }
+
+        const response = await fetch(leadWebhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        let responseData = null;
+
+        try {
+          responseData = await response.json();
+        } catch (_error) {
+          responseData = null;
+        }
+
+        if (!response.ok) {
+          throw new Error(`Lead request failed with status ${response.status}`);
+        }
+
+        const leadId = responseData?.lead_id;
+        const telegramUrl = leadId && telegramBotUsername
+          ? `https://t.me/${telegramBotUsername}?start=lead_${leadId}`
+          : defaultTelegramUrl;
+
+        showResultScreen({ ok: true, telegramUrl });
+      } catch (_error) {
+        if (formError) {
+          formError.textContent = 'Tuvimos un problema al registrar tus datos. Puedes continuar por Telegram sin perder el siguiente paso.';
+          formError.classList.remove('hidden');
+        }
+
+        showResultScreen({
+          ok: false,
+          telegramUrl: defaultTelegramUrl
+        });
+      } finally {
+        submitButton?.removeAttribute('disabled');
+        if (submitLabel) submitLabel.textContent = 'Enviar y continuar';
+      }
+    });
+  }
+</script>

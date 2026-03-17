@@ -1,203 +1,149 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
+import LeadCapture from '../components/ui/LeadCapture.astro';
 
 const seo = {
-  title: "Einstein Kids | Ciencia y Nutrición Educativa",
-  description: "Plataforma educativa sobre el desarrollo biológico infantil. Entendiendo la conexión intestino-cerebro y más.",
+  title: 'Einstein Kids | Ciencia y Nutricion Educativa',
+  description: 'Plataforma educativa sobre el desarrollo biologico infantil. Entendiendo la conexion intestino-cerebro y mas.',
 };
 ---
 
 <BaseLayout seo={seo}>
-    <!-- 1. HERO SECTION (Impacto inmediato) -->
-    <section class="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden bg-primary/5 pt-20">
-        <!-- Background Decor -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-            <div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl opacity-60"></div>
-            <div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl opacity-60"></div>
+  <section class="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden bg-primary/5 pt-20">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+      <div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl opacity-60"></div>
+      <div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl opacity-60"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto animate-fade-in-up space-y-8 relative z-10">
+      <h1 class="text-4xl md:text-6xl font-bold text-primary tracking-tight leading-tight">
+        Tu hijo no es "dificil".<br />
+        <span class="text-secondary">Su cuerpo podria estar pidiendo ayuda.</span>
+      </h1>
+
+      <p class="text-xl md:text-2xl text-primary/80 font-medium max-w-2xl mx-auto">
+        Lo que muchos comportamientos infantiles esconden y nadie nos explico:
+        alimentacion, sistema nervioso, intestino y cerebro.
+      </p>
+
+      <div class="bg-white/50 backdrop-blur-sm p-6 rounded-2xl max-w-2xl mx-auto border border-primary/5">
+        <p class="text-lg text-text-secondary leading-relaxed">
+          Si tu hijo tiene berrinches constantes, le cuesta concentrarse, duerme mal, se enferma seguido o vive irritable...
+          <span class="font-bold text-primary block mt-2">esto no es mala crianza. Y no estas exagerando.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4 bg-white">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold text-center text-primary mb-12">Te suena familiar?</h2>
+
+      <ul class="space-y-4 mb-12">
+        {[
+          'Tu hijo explota "de la nada"',
+          'Parece cansado pero no se puede quedar quieto',
+          'Se distrae con todo',
+          'Vive enfermo o inflamado',
+          'Duerme mal o se despierta llorando',
+          'Tu haces lo mejor que puedes... y aun asi no funciona'
+        ].map((item) => (
+          <li class="flex items-start gap-3 p-4 bg-secondary/5 rounded-lg border-l-4 border-secondary">
+            <span class="text-secondary mt-1">•</span>
+            <p class="text-lg text-text-primary font-medium">{item}</p>
+          </li>
+        ))}
+      </ul>
+
+      <div class="text-center space-y-2">
+        <p class="text-xl text-primary font-semibold">No es falta de limites.</p>
+        <p class="text-xl text-primary font-semibold">No es flojera.</p>
+        <p class="text-xl text-primary font-bold">No es que tu estes fallando.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4 bg-primary text-white relative overflow-hidden">
+    <div class="max-w-4xl mx-auto text-center relative z-10 space-y-8">
+      <h2 class="text-3xl md:text-5xl font-bold mb-6">La conducta es biologia.</h2>
+
+      <div class="text-xl md:text-2xl leading-relaxed space-y-6 font-light">
+        <p>
+          Muchos comportamientos infantiles son la manifestacion de un cuerpo inflamado o de un cerebro sin energia estable.
+        </p>
+        <p>
+          El intestino, la alimentacion y el sistema nervioso influyen directamente en como un nino se regula, aprende y responde.
+        </p>
+        <div class="bg-white/10 p-6 rounded-xl border border-white/20">
+          <p class="font-medium">
+            Cuando el cuerpo esta en alerta constante, el cerebro no puede enfocarse.
+          </p>
         </div>
+      </div>
 
-        <div class="max-w-4xl mx-auto animate-fade-in-up space-y-8 relative z-10">
-            <h1 class="text-4xl md:text-6xl font-bold text-primary tracking-tight leading-tight">
-                Tu hijo no es “difícil”.<br/>
-                <span class="text-secondary">Su cuerpo podría estar pidiendo ayuda.</span>
-            </h1>
-            
+      <p class="text-3xl font-bold text-white mt-8 animate-pulse">
+        No es el nino. Es el entorno interno.
+      </p>
+    </div>
+  </section>
 
-            
-            <p class="text-xl md:text-2xl text-primary/80 font-medium max-w-2xl mx-auto">
-                Lo que muchos comportamientos infantiles esconden y nadie nos explicó:
-                alimentación, sistema nervioso, intestino y cerebro.
-            </p>
+  <LeadCapture />
 
-            <div class="bg-white/50 backdrop-blur-sm p-6 rounded-2xl max-w-2xl mx-auto border border-primary/5">
-                <p class="text-lg text-text-secondary leading-relaxed">
-                    Si tu hijo tiene berrinches constantes, le cuesta concentrarse, duerme mal, se enferma seguido o vive irritable…
-                    <span class="font-bold text-primary block mt-2">esto NO es mala crianza. Y no estás exagerando.</span>
-                </p>
-            </div>
+  <section class="py-20 px-4 bg-[#FAFAF9]">
+    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
+      <div class="bg-white p-8 rounded-2xl shadow-sm border-t-8 border-green-500">
+        <h3 class="text-2xl font-bold text-primary mb-6">Esta clase es para ti si...</h3>
+        <ul class="space-y-4">
+          {[
+            'Eres mama o papa y quieres entender a tu hijo',
+            'Te importa su desarrollo emocional y cognitivo',
+            'Buscas soluciones reales, no parches',
+            'Estas abierta a aprender algo diferente'
+          ].map((item) => (
+            <li class="flex gap-3">
+              <span class="text-green-500 font-bold">+</span>
+              <span class="text-text-secondary">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
 
+      <div class="bg-white p-8 rounded-2xl shadow-sm border-t-8 border-red-400">
+        <h3 class="text-2xl font-bold text-gray-400 mb-6">No es para ti si...</h3>
+        <ul class="space-y-4">
+          {[
+            'Buscas soluciones magicas',
+            'No estas dispuesta a cuestionar habitos',
+            'Crees que todo se arregla solo con castigos'
+          ].map((item) => (
+            <li class="flex gap-3">
+              <span class="text-red-400 font-bold">x</span>
+              <span class="text-gray-400">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
 
-        </div>
-    </section>
+  <section class="py-24 px-4 bg-primary text-white text-center">
+    <div class="max-w-3xl mx-auto space-y-8">
+      <h2 class="text-3xl md:text-5xl font-bold">Te unes a la clase?</h2>
 
-    <!-- 2. SECCIÓN DE DOLOR (Validación total del cliente) -->
-    <section class="py-20 px-4 bg-white">
-        <div class="max-w-3xl mx-auto">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-primary mb-12">¿Te suena familiar?</h2>
-            
-            <ul class="space-y-4 mb-12">
-                {[
-                    "Tu hijo explota “de la nada”",
-                    "Parece cansado pero no se puede quedar quieto",
-                    "Se distrae con todo",
-                    "Vive enfermo o inflamado",
-                    "Duerme mal o se despierta llorando",
-                    "Tú haces lo mejor que puedes… y aun así no funciona"
-                ].map((item) => (
-                    <li class="flex items-start gap-3 p-4 bg-secondary/5 rounded-lg border-l-4 border-secondary">
-                        <span class="text-secondary mt-1">●</span>
-                        <p class="text-lg text-text-primary font-medium">{item}</p>
-                    </li>
-                ))}
-            </ul>
+      <div class="text-xl font-light space-y-2">
+        <p>La clase es completamente gratuita.</p>
+        <p>Comparte tus datos en el formulario y recibe el siguiente paso para continuar por Telegram.</p>
+        <p class="font-medium text-secondary">Te tomara menos de un minuto apartar tu lugar.</p>
+      </div>
 
-            <div class="text-center space-y-2">
-                <p class="text-xl text-primary font-semibold">No es falta de límites.</p>
-                <p class="text-xl text-primary font-semibold">No es flojera.</p>
-                <p class="text-xl text-primary font-bold">No es que tú estés fallando.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. GIRO DE CONCIENCIA (La verdad que nadie les dijo) -->
-    <section class="py-20 px-4 bg-primary text-white relative overflow-hidden">
-        <div class="max-w-4xl mx-auto text-center relative z-10 space-y-8">
-            <h2 class="text-3xl md:text-5xl font-bold mb-6">La conducta es biología.</h2>
-            
-            <div class="text-xl md:text-2xl leading-relaxed space-y-6 font-light">
-                <p>
-                    Muchos comportamientos infantiles son la manifestación de un cuerpo inflamado o de un cerebro sin energía estable.
-                </p>
-                <p>
-                    El intestino, la alimentación y el sistema nervioso influyen directamente en cómo un niño se regula, aprende y responde.
-                </p>
-                <div class="bg-white/10 p-6 rounded-xl border border-white/20">
-                    <p class="font-medium">
-                        Cuando el cuerpo está en alerta constante, el cerebro no puede enfocarse.
-                    </p>
-                </div>
-            </div>
-
-            <p class="text-3xl font-bold text-secondary-light mt-8 animate-pulse">
-                👉 No es el niño. Es el entorno interno.
-            </p>
-        </div>
-    </section>
-
-
-
-    <!-- 5. LA CLASE GRATUITA -->
-    <section class="py-20 px-4 bg-white border-y border-gray-100">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-12">
-                <span class="bg-secondary/10 text-secondary font-bold px-4 py-2 rounded-full mb-4 inline-block">INVITACIÓN ESPECIAL</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-primary mb-4">Clase GRATUITA:</h2>
-                <h3 class="text-2xl md:text-3xl text-primary/80">Cuerpo calmado, cerebro enfocado</h3>
-                <p class="mt-4 text-xl text-text-secondary">Lo que todo padre debería saber sobre conducta infantil, regulación emocional y alimentación.</p>
-            </div>
-
-            <div class="bg-gray-50 rounded-3xl p-8 md:p-12 shadow-sm border border-gray-100 mb-8">
-                <h4 class="text-xl font-bold text-primary mb-6">En esta clase aprenderás:</h4>
-                <div class="grid md:grid-cols-2 gap-6">
-                    {[
-                        "Por qué muchos berrinches no son “emocionales”, sino fisiológicos",
-                        "Cómo el intestino influye directamente en el cerebro y la conducta",
-                        "El efecto real del azúcar y los ultraprocesados en la concentración",
-                        "Qué pequeños cambios sí hacen diferencia (sin extremos)",
-                        "Cómo empezar a apoyar a tu hijo desde la raíz"
-                    ].map((item) => (
-                        <div class="flex gap-3">
-                            <span class="text-green-500 font-bold text-xl">✓</span>
-                            <p class="text-text-secondary">{item}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            <div class="text-center max-w-2xl mx-auto space-y-8">
-                 <p class="text-sm text-text-secondary/70 italic border p-4 rounded-lg bg-gray-50">
-                    <strong>Importante:</strong> Esta clase es informativa y educativa. No es una consulta médica ni una terapia. Es conocimiento práctico para padres reales.
-                </p>
-                
-                <a href="https://chat.whatsapp.com/IpZi5vHjnURDQlUT1VI9Bb" onclick="fbq('track', 'Lead', {content_name: 'Grupo WhatsApp Intermedio', value: 0.00, currency: 'MXN'});" class="inline-flex items-center gap-3 bg-[#25D366] text-white font-bold text-xl px-8 py-4 rounded-full hover:bg-[#20bd5a] transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.6 1.983-.755 3.637 1.25 5.242-2.345-2.001-2.288-.344l.872 3.161zm9.24-9.764c-.161-.077-1.393-.418-1.603-.464-.191-.046-.339-.072-.472.155-.162.247-.638.835-.783 1.011-.143.16-.307.199-.547.087-.238-.112-1.014-.374-1.93-1.191-.715-.638-1.198-1.427-1.341-1.67-.144-.242-.015-.373.106-.493.111-.11.239-.286.358-.429.121-.143.161-.242.24-.403.08-.161.04-.302-.02-.423-.061-.121-.772-1.282-.962-1.582-.092-.143-.198-.103-.272-.108-.073-.005-.157-.008-.242-.008-.088 0-.256.052-.397.208-.139.157-.597.585-.597 1.427 0 .843.606 1.656.691 1.77.085.115 1.192 1.82 2.887 2.551 1.026.443 1.425.461 1.938.411.579-.057 1.393-.569 1.591-1.121.198-.551.198-1.024.139-1.121-.06-.098-.218-.162-.438-.268z"></path></svg>
-                    ¡Sí, quiero asegurar mi lugar GRATIS!
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. PARA QUIÉN SÍ / PARA QUIÉN NO -->
-    <section class="py-20 px-4 bg-[#FAFAF9]">
-        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
-            <!-- SI -->
-            <div class="bg-white p-8 rounded-2xl shadow-sm border-t-8 border-green-500">
-                <h3 class="text-2xl font-bold text-primary mb-6">Esta clase es para ti si…</h3>
-                <ul class="space-y-4">
-                    {[
-                        "Eres mamá o papá y quieres entender a tu hijo",
-                        "Te importa su desarrollo emocional y cognitivo",
-                        "Buscas soluciones reales, no parches",
-                        "Estás abierta a aprender algo diferente"
-                    ].map(item => (
-                        <li class="flex gap-3">
-                            <span class="text-green-500 font-bold">✔️</span>
-                            <span class="text-text-secondary">{item}</span>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            <!-- NO -->
-            <div class="bg-white p-8 rounded-2xl shadow-sm border-t-8 border-red-400">
-                <h3 class="text-2xl font-bold text-gray-400 mb-6">No es para ti si…</h3>
-                <ul class="space-y-4">
-                    {[
-                        "Buscas soluciones mágicas",
-                        "No estás dispuesta a cuestionar hábitos",
-                        "Crees que todo se arregla solo con castigos"
-                    ].map(item => (
-                        <li class="flex gap-3">
-                            <span class="text-red-400 font-bold">✖️</span>
-                            <span class="text-gray-400">{item}</span>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- 7. CTA FINAL -->
-    <section id="whatsapp-group" class="py-24 px-4 bg-primary text-white text-center">
-        <div class="max-w-3xl mx-auto space-y-8">
-            <h2 class="text-3xl md:text-5xl font-bold">¿Te unes a la clase?</h2>
-            
-            <div class="text-xl font-light space-y-2">
-                <p>La clase es completamente gratuita.</p>
-                <p>Toda la información del día, hora y acceso se enviará por WhatsApp.</p>
-                <p class="font-medium text-secondary">Para mantener todo organizado, crearé un grupo privado solo con las personas inscritas.</p>
-            </div>
-
-            <div class="pt-8">
-                <a href="https://chat.whatsapp.com/IpZi5vHjnURDQlUT1VI9Bb" onclick="fbq('track', 'Lead', {content_name: 'Grupo WhatsApp Final', value: 0.00, currency: 'MXN'});" class="inline-flex items-center gap-3 bg-[#25D366] text-white font-bold text-xl px-8 py-5 rounded-full hover:bg-[#20bd5a] transition-all transform hover:scale-105 shadow-lg">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.6 1.983-.755 3.637 1.25 5.242-2.345-2.001-2.288-.344l.872 3.161zm9.24-9.764c-.161-.077-1.393-.418-1.603-.464-.191-.046-.339-.072-.472.155-.162.247-.638.835-.783 1.011-.143.16-.307.199-.547.087-.238-.112-1.014-.374-1.93-1.191-.715-.638-1.198-1.427-1.341-1.67-.144-.242-.015-.373.106-.493.111-.11.239-.286.358-.429.121-.143.161-.242.24-.403.08-.161.04-.302-.02-.423-.061-.121-.772-1.282-.962-1.582-.092-.143-.198-.103-.272-.108-.073-.005-.157-.008-.242-.008-.088 0-.256.052-.397.208-.139.157-.597.585-.597 1.427 0 .843.606 1.656.691 1.77.085.115 1.192 1.82 2.887 2.551 1.026.443 1.425.461 1.938.411.579-.057 1.393-.569 1.591-1.121.198-.551.198-1.024.139-1.121-.06-.098-.218-.162-.438-.268z"></path></svg>
-                    Unirme al grupo de WhatsApp
-                </a>
-                <p class="text-sm mt-4 opacity-80 flex items-center justify-center gap-2">
-                    🔒 Grupo informativo | Sin spam | Solo información de la clase
-                </p>
-            </div>
-        </div>
-    </section>
+      <div class="pt-8">
+        <a href="#lead-form" class="inline-flex items-center gap-3 bg-secondary text-white font-bold text-xl px-8 py-5 rounded-full hover:bg-[#43655d] transition-all transform hover:scale-105 shadow-lg">
+          Completar formulario
+        </a>
+        <p class="text-sm mt-4 opacity-80 flex items-center justify-center gap-2">
+          Registro rapido | Siguiente paso por Telegram
+        </p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
