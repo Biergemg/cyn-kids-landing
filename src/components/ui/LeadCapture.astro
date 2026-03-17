@@ -69,16 +69,30 @@ const telegramBotUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? '';
 
             <div>
               <label class="block text-sm font-semibold text-primary mb-2" for="lead-whatsapp">WhatsApp</label>
-              <input
-                id="lead-whatsapp"
-                name="whatsapp"
-                type="tel"
-                autocomplete="tel"
-                inputmode="tel"
-                class="w-full rounded-2xl border border-primary/15 bg-[#FAFAF9] px-4 py-3 text-text-primary outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/20"
-                placeholder="Tu numero con lada"
-                required
-              />
+              <div class="grid grid-cols-[140px_1fr] gap-3">
+                <select
+                  id="lead-country-code"
+                  name="countryCode"
+                  class="w-full rounded-2xl border border-primary/15 bg-[#FAFAF9] px-4 py-3 text-text-primary outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                >
+                  <option value="+52" selected>Mexico +52</option>
+                  <option value="+1">USA/Canada +1</option>
+                  <option value="+54">Argentina +54</option>
+                  <option value="+56">Chile +56</option>
+                  <option value="+57">Colombia +57</option>
+                  <option value="+34">Espana +34</option>
+                </select>
+                <input
+                  id="lead-whatsapp"
+                  name="whatsapp"
+                  type="tel"
+                  autocomplete="tel-national"
+                  inputmode="tel"
+                  class="w-full rounded-2xl border border-primary/15 bg-[#FAFAF9] px-4 py-3 text-text-primary outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                  placeholder="Numero de WhatsApp"
+                  required
+                />
+              </div>
               <p class="text-sm text-red-600 mt-2 hidden" data-error-for="whatsapp"></p>
             </div>
 
@@ -233,6 +247,7 @@ const telegramBotUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? '';
 
       const data = {
         name: form.name.value.trim(),
+        countryCode: form.countryCode.value.trim(),
         whatsapp: form.whatsapp.value.trim(),
         email: form.email.value.trim()
       };
@@ -246,7 +261,7 @@ const telegramBotUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? '';
 
       const payload = {
         name: data.name,
-        phone: data.whatsapp,
+        phone: `${data.countryCode}${data.whatsapp.replace(/\D/g, '')}`,
         email: data.email,
         source: 'landing_vercel',
         page_url: window.location.href,
