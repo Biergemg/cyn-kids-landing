@@ -70,29 +70,80 @@ const telegramBotUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? '';
             <div>
               <label class="block text-sm font-semibold text-primary mb-2" for="lead-whatsapp">WhatsApp</label>
               <div class="grid grid-cols-[150px_1fr] gap-3">
-                <div class="relative">
-                  <div class="pointer-events-none absolute left-4 top-1/2 z-10 flex -translate-y-1/2 items-center gap-2">
-                    <img
-                      src="https://flagcdn.com/w40/mx.png"
-                      alt="Bandera del pais seleccionado"
-                      class="h-4 w-6 rounded-[2px] object-cover shadow-sm"
-                      data-country-flag
-                    />
-                    <span class="text-xs font-bold uppercase tracking-[0.18em] text-primary/60" data-country-label>MX</span>
-                  </div>
-                  <select
-                    id="lead-country-code"
-                    name="countryCode"
-                    class="w-full appearance-none rounded-2xl border border-primary/15 bg-[#FAFAF9] bg-[linear-gradient(135deg,rgba(82,121,111,0.12),rgba(250,250,249,0.9))] px-4 py-3 pl-16 text-right text-sm font-semibold text-text-primary outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                <div class="relative" data-country-picker>
+                  <input type="hidden" name="countryCode" value="+52" data-country-code-input />
+                  <button
+                    type="button"
+                    class="flex w-full items-center justify-between rounded-2xl border border-primary/15 bg-[linear-gradient(135deg,rgba(82,121,111,0.12),rgba(250,250,249,0.95))] px-3 py-3 text-left text-text-primary outline-none transition hover:border-secondary/40 focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                    data-country-trigger
+                    aria-expanded="false"
                   >
-                    <option value="+52" data-flag="mx" data-label="MX" selected>+52</option>
-                    <option value="+1" data-flag="us" data-label="US">+1</option>
-                    <option value="+1" data-flag="ca" data-label="CA">+1</option>
-                    <option value="+54" data-flag="ar" data-label="AR">+54</option>
-                    <option value="+56" data-flag="cl" data-label="CL">+56</option>
-                    <option value="+57" data-flag="co" data-label="CO">+57</option>
-                    <option value="+34" data-flag="es" data-label="ES">+34</option>
-                  </select>
+                    <span class="flex items-center gap-2 min-w-0">
+                      <img
+                        src="https://flagcdn.com/w40/mx.png"
+                        alt="Bandera del pais seleccionado"
+                        class="h-4 w-6 rounded-[2px] object-cover shadow-sm"
+                        data-country-flag
+                      />
+                      <span class="text-xs font-bold uppercase tracking-[0.18em] text-primary/60" data-country-label>MX</span>
+                    </span>
+                    <span class="text-sm font-semibold text-text-primary" data-country-code>+52</span>
+                  </button>
+
+                  <div
+                    class="absolute left-0 top-[calc(100%+0.5rem)] z-30 hidden w-[220px] overflow-hidden rounded-2xl border border-primary/10 bg-white shadow-[0_16px_40px_rgba(47,62,70,0.18)]"
+                    data-country-menu
+                  >
+                    <button type="button" class="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-secondary/5" data-country-option data-value="+52" data-flag="mx" data-label="MX">
+                      <span class="flex items-center gap-3">
+                        <img src="https://flagcdn.com/w40/mx.png" alt="Mexico" class="h-4 w-6 rounded-[2px] object-cover shadow-sm" />
+                        <span class="text-sm font-semibold text-text-primary">MX</span>
+                      </span>
+                      <span class="text-sm font-semibold text-primary/80">+52</span>
+                    </button>
+                    <button type="button" class="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-secondary/5" data-country-option data-value="+1" data-flag="us" data-label="US">
+                      <span class="flex items-center gap-3">
+                        <img src="https://flagcdn.com/w40/us.png" alt="United States" class="h-4 w-6 rounded-[2px] object-cover shadow-sm" />
+                        <span class="text-sm font-semibold text-text-primary">US</span>
+                      </span>
+                      <span class="text-sm font-semibold text-primary/80">+1</span>
+                    </button>
+                    <button type="button" class="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-secondary/5" data-country-option data-value="+1" data-flag="ca" data-label="CA">
+                      <span class="flex items-center gap-3">
+                        <img src="https://flagcdn.com/w40/ca.png" alt="Canada" class="h-4 w-6 rounded-[2px] object-cover shadow-sm" />
+                        <span class="text-sm font-semibold text-text-primary">CA</span>
+                      </span>
+                      <span class="text-sm font-semibold text-primary/80">+1</span>
+                    </button>
+                    <button type="button" class="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-secondary/5" data-country-option data-value="+54" data-flag="ar" data-label="AR">
+                      <span class="flex items-center gap-3">
+                        <img src="https://flagcdn.com/w40/ar.png" alt="Argentina" class="h-4 w-6 rounded-[2px] object-cover shadow-sm" />
+                        <span class="text-sm font-semibold text-text-primary">AR</span>
+                      </span>
+                      <span class="text-sm font-semibold text-primary/80">+54</span>
+                    </button>
+                    <button type="button" class="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-secondary/5" data-country-option data-value="+56" data-flag="cl" data-label="CL">
+                      <span class="flex items-center gap-3">
+                        <img src="https://flagcdn.com/w40/cl.png" alt="Chile" class="h-4 w-6 rounded-[2px] object-cover shadow-sm" />
+                        <span class="text-sm font-semibold text-text-primary">CL</span>
+                      </span>
+                      <span class="text-sm font-semibold text-primary/80">+56</span>
+                    </button>
+                    <button type="button" class="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-secondary/5" data-country-option data-value="+57" data-flag="co" data-label="CO">
+                      <span class="flex items-center gap-3">
+                        <img src="https://flagcdn.com/w40/co.png" alt="Colombia" class="h-4 w-6 rounded-[2px] object-cover shadow-sm" />
+                        <span class="text-sm font-semibold text-text-primary">CO</span>
+                      </span>
+                      <span class="text-sm font-semibold text-primary/80">+57</span>
+                    </button>
+                    <button type="button" class="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-secondary/5" data-country-option data-value="+34" data-flag="es" data-label="ES">
+                      <span class="flex items-center gap-3">
+                        <img src="https://flagcdn.com/w40/es.png" alt="Espana" class="h-4 w-6 rounded-[2px] object-cover shadow-sm" />
+                        <span class="text-sm font-semibold text-text-primary">ES</span>
+                      </span>
+                      <span class="text-sm font-semibold text-primary/80">+34</span>
+                    </button>
+                  </div>
                 </div>
                 <input
                   id="lead-whatsapp"
@@ -178,9 +229,14 @@ const telegramBotUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? '';
     const successMessage = root.querySelector('[data-success-message]');
     const statusTitle = root.querySelector('[data-status-title]');
     const statusDetail = root.querySelector('[data-status-detail]');
-    const countryCodeSelect = root.querySelector('#lead-country-code');
+    const countryPicker = root.querySelector('[data-country-picker]');
+    const countryCodeInput = root.querySelector('[data-country-code-input]');
+    const countryTrigger = root.querySelector('[data-country-trigger]');
+    const countryMenu = root.querySelector('[data-country-menu]');
+    const countryOptions = root.querySelectorAll('[data-country-option]');
     const countryFlag = root.querySelector('[data-country-flag]');
     const countryLabel = root.querySelector('[data-country-label]');
+    const countryCode = root.querySelector('[data-country-code]');
 
     const fieldErrors = {
       name: root.querySelector('[data-error-for="name"]'),
@@ -192,21 +248,46 @@ const telegramBotUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? '';
       ? `https://t.me/${telegramBotUsername}`
       : '#';
 
-    const updateCountryBadge = () => {
-      const selectedOption = countryCodeSelect?.options[countryCodeSelect.selectedIndex];
+    const updateCountryBadge = (selectedOption) => {
       if (!selectedOption) return;
-
       if (countryFlag) {
         countryFlag.src = `https://flagcdn.com/w40/${selectedOption.dataset.flag || 'mx'}.png`;
       }
-
       if (countryLabel) {
         countryLabel.textContent = selectedOption.dataset.label || 'MX';
       }
+      if (countryCode) {
+        countryCode.textContent = selectedOption.dataset.value || '+52';
+      }
+      if (countryCodeInput) {
+        countryCodeInput.value = selectedOption.dataset.value || '+52';
+      }
+      if (countryTrigger) {
+        countryTrigger.setAttribute('aria-expanded', 'false');
+      }
+      if (countryMenu) {
+        countryMenu.classList.add('hidden');
+      }
     };
 
-    updateCountryBadge();
-    countryCodeSelect?.addEventListener('change', updateCountryBadge);
+    updateCountryBadge(root.querySelector('[data-country-option][data-value="+52"][data-label="MX"]'));
+
+    countryTrigger?.addEventListener('click', () => {
+      const isOpen = !countryMenu?.classList.contains('hidden');
+      countryMenu?.classList.toggle('hidden', isOpen);
+      countryTrigger.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    countryOptions.forEach((option) => {
+      option.addEventListener('click', () => updateCountryBadge(option));
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!countryPicker?.contains(event.target)) {
+        countryMenu?.classList.add('hidden');
+        countryTrigger?.setAttribute('aria-expanded', 'false');
+      }
+    });
 
     const validators = {
       name(value) {
