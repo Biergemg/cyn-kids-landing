@@ -189,11 +189,14 @@ const whatsappUrl = "https://wa.me/528334875588?text=Hola,%20vi%20el%20video%20y
 
 </BaseLayout>
 
-<script>
-  // --- VSL Tracking Script ---
+<script is:inline>
+  // --- VSL & Attribution Tracking Script ---
   let player;
   let trackedMilestones = new Set();
   
+  // Generate a short unique ID for this session
+  const trackingId = Math.random().toString(36).substring(2, 8).toUpperCase();
+
   function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -201,20 +204,50 @@ const whatsappUrl = "https://wa.me/528334875588?text=Hola,%20vi%20el%20video%20y
     return null;
   }
 
+  function sendAttributionPing() {
+    const fbp = getCookie('_fbp') || '';
+    const fbc = getCookie('_fbc') || '';
+    
+    // Immediate Meta Pixel Signal (Browser-side)
+    if (window.fbq) {
+      fbq('trackCustom', 'WA_Conversion', { tracking_id: trackingId }); // Push custom event for immediate visibility
+    }
+
+    const payload = JSON.stringify({ tracking_id: trackingId, fbp, fbc });
+    const url = 'https://api.einsteinkids.cynponceglz.com/webhooks/cyn/ping';
+    
+    // Use sendBeacon for Maximum Reliability on Clicks
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(url, payload);
+    } else {
+      fetch(url, { method: 'POST', body: payload, keepalive: true }).catch(() => {});
+    }
+  }
+
   function reportMilestone(milestone) {
     if (trackedMilestones.has(milestone)) return;
     trackedMilestones.add(milestone);
     
-    // Capture Meta Pixel Cookie _fbp
     const fbp = getCookie('_fbp') || '';
+    const fbc = getCookie('_fbc') || '';
     
     fetch('https://api.einsteinkids.cynponceglz.com/webhooks/cyn/track-vsl', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ milestone, fbp }),
+      body: JSON.stringify({ milestone, fbp, fbc }),
       keepalive: true
     }).catch(() => {});
   }
+
+  // Bind to WhatsApp buttons
+  document.addEventListener('DOMContentLoaded', () => {
+    const waButtons = document.querySelectorAll('a[href*="wa.me"]');
+    waButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        sendAttributionPing();
+      });
+    });
+  });
 
   // Load YouTube API
   const tag = document.createElement('script');
