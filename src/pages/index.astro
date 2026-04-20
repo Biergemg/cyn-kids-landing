@@ -204,19 +204,23 @@ const whatsappUrl = "https://wa.me/528334875588?text=Hola,%20vi%20el%20video%20y
     return null;
   }
 
-  function sendAttributionPing() {
+  function sendAttributionPing(isConversion = false) {
     const fbp = getCookie('_fbp') || '';
     const fbc = getCookie('_fbc') || '';
     
     // Immediate Meta Pixel Signal (Browser-side)
-    if (window.fbq) {
-      fbq('trackCustom', 'WA_Conversion', { tracking_id: trackingId }); // Push custom event for immediate visibility
+    if (window.fbq && isConversion) {
+      fbq('trackCustom', 'WA_Conversion', { tracking_id: trackingId }); // Only trigger Meta event on real conversion
     }
 
-    const payload = JSON.stringify({ tracking_id: trackingId, fbp, fbc });
+    const payload = JSON.stringify({ 
+      tracking_id: trackingId, 
+      fbp, 
+      fbc, 
+      event_type: isConversion ? 'conversion' : 'page_view' 
+    });
     const url = 'https://api.einsteinkids.cynponceglz.com/webhooks/cyn/ping';
     
-    // Use sendBeacon for Maximum Reliability on Clicks
     if (navigator.sendBeacon) {
       navigator.sendBeacon(url, payload);
     } else {
@@ -239,12 +243,16 @@ const whatsappUrl = "https://wa.me/528334875588?text=Hola,%20vi%20el%20video%20y
     }).catch(() => {});
   }
 
-  // Bind to WhatsApp buttons
+  // Bind events
   document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initial Page View Ping (for Funnel math)
+    sendAttributionPing(false);
+
+    // 2. WhatsApp buttons (for Conversion)
     const waButtons = document.querySelectorAll('a[href*="wa.me"]');
     waButtons.forEach(btn => {
       btn.addEventListener('click', (e) => {
-        sendAttributionPing();
+        sendAttributionPing(true);
       });
     });
   });
