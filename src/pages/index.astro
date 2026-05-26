@@ -1,5 +1,11 @@
 ---
+export const prerender = false;
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const host = Astro.request.headers.get('host') ?? '';
+if (host.startsWith('lectoescritura.')) {
+  return Astro.rewrite('/lectoescritura');
+}
 
 const seo = {
   title: 'Cyn | Entendiendo la biología de la conducta',

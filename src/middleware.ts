@@ -5,10 +5,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   if (host.startsWith('lectoescritura.')) {
     const path = new URL(context.request.url).pathname;
-
-    if (path === '/' || path === '') {
-      return context.rewrite('/lectoescritura');
-    }
     if (path === '/gracias' || path === '/gracias/') {
       return context.rewrite('/lectoescritura/gracias');
     }
