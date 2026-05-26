@@ -12,7 +12,9 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         !page.endsWith('/404') &&
-        !page.includes('/privado')
+        !page.includes('/privado') &&
+        !page.includes('/gracias') &&
+        !page.includes('/dl/')
     }),
     tailwind()
   ],

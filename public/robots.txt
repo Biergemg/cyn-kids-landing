@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /404
+Disallow: /dl/
+Disallow: /lectoescritura/gracias
 
 User-agent: GPTBot
 Allow: /
