@@ -1,8 +1,10 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
+  adapter: vercel({ edgeMiddleware: true }),
   site: 'https://einsteinkids.cynponceglz.com',
   trailingSlash: 'never',
   build: {
