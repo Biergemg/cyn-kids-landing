@@ -1,0 +1,10 @@
+---
+export const prerender = false;
+
+const host = Astro.request.headers.get('host') ?? '';
+if (host.startsWith('lectoescritura.')) {
+  return Astro.rewrite('/lectoescritura/gracias');
+}
+
+return Astro.redirect('/', 302);
+---
