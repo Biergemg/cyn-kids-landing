@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "lectoescritura.cynponceglz.com" }],
+      "destination": "/lectoescritura"
+    },
+    {
+      "source": "/gracias",
+      "has": [{ "type": "host", "value": "lectoescritura.cynponceglz.com" }],
+      "destination": "/lectoescritura/gracias"
+    }
+  ]
+}
