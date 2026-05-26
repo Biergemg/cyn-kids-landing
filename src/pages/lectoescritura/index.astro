@@ -6,65 +6,88 @@ const STRIPE_LINK = "https://buy.stripe.com/28E9ATft02HW9HPbb92wU02";
 
 const seo = {
   title: 'Kit de Lectoescritura Temprana | Cyn',
-  description: '3 PDFs imprimibles + plantilla Canva. Ejercicios de neuromotricidad bilateral, rastreo visual y trazo de alfabeto A-Z para preparar a niños de 3 a 6 años para leer y escribir.',
+  description: 'Materiales imprimibles con base neuromotora para preparar a niños de 3 a 6 años para leer y escribir. 3 PDFs + plantilla Canva. Descarga inmediata.',
   noindex: false,
 };
 ---
 
 <BaseLayout seo={seo}>
 
-  <!-- ═══════════════════════════════════════════════════════
-       HERO
-  ═══════════════════════════════════════════════════════ -->
-  <section class="min-h-screen flex flex-col items-center justify-center px-5 pt-16 pb-20 bg-[#FAFAF9]">
-    <div class="w-full max-w-2xl mx-auto text-center">
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+      .lora { font-family: 'Lora', Georgia, serif; }
+    </style>
+  </Fragment>
 
-      <p class="text-sm font-medium tracking-widest text-secondary uppercase mb-8 opacity-80">
-        Cyn · Materiales educativos
+  <!-- ══════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════ -->
+  <section class="min-h-screen flex flex-col justify-center px-5 pt-20 pb-24 bg-[#FAF8F3]">
+    <div class="w-full max-w-2xl mx-auto">
+
+      <p class="text-xs font-semibold tracking-[0.18em] text-[#C4622D] uppercase mb-10">
+        Cyn · Neurodesarrollo infantil
       </p>
 
-      <h1 class="text-[2.1rem] leading-[1.2] md:text-5xl md:leading-[1.15] font-semibold text-primary mb-6">
+      <h1 class="lora text-[2.4rem] leading-[1.18] md:text-[3.5rem] md:leading-[1.12] font-semibold text-[#1A1208] mb-7">
         Antes de las letras,<br/>
-        <span class="text-[#1F2933] font-normal">el cuerpo necesita<br class="hidden md:block"/> aprender a moverse.</span>
+        <em class="font-normal not-italic text-[#6B5E4E]">el cuerpo necesita<br class="hidden md:block"/> aprender a moverse.</em>
       </h1>
 
-      <p class="text-lg md:text-xl text-text-secondary leading-relaxed max-w-xl mx-auto mb-10">
+      <p class="text-lg md:text-xl text-[#6B5E4E] leading-relaxed max-w-[540px] mb-10">
         Un kit de materiales imprimibles para construir las bases neuromotoras y visuales que la lectura y la escritura exigen, antes de que el salón lo demande.
       </p>
 
-      <a
-        href={STRIPE_LINK}
-        class="inline-block bg-primary text-white text-base font-medium px-8 py-4 rounded-md hover:bg-cta-hover transition-colors duration-200 w-full sm:w-auto"
-      >
-        Obtener el kit completo — $197 MXN
-      </a>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <a
+          href={STRIPE_LINK}
+          class="inline-block bg-[#C4622D] text-white text-base font-semibold px-8 py-4 rounded hover:bg-[#A3511F] transition-colors duration-200"
+        >
+          Obtener el kit — $197 MXN
+        </a>
+        <span class="text-sm text-[#9C8872]">Descarga inmediata · PDF imprimible · Canva incluido</span>
+      </div>
 
-      <p class="text-sm text-text-secondary mt-4 opacity-70">
-        Descarga inmediata · PDF imprimible · Plantilla Canva incluida
-      </p>
+      <!-- Proof line -->
+      <div class="mt-14 pt-10 border-t border-[#E8E0D5] flex flex-wrap gap-8">
+        <div>
+          <p class="text-2xl font-semibold text-[#1A1208] lora">39</p>
+          <p class="text-xs text-[#9C8872] mt-0.5">páginas imprimibles</p>
+        </div>
+        <div>
+          <p class="text-2xl font-semibold text-[#1A1208] lora">4</p>
+          <p class="text-xs text-[#9C8872] mt-0.5">materiales en secuencia</p>
+        </div>
+        <div>
+          <p class="text-2xl font-semibold text-[#1A1208] lora">3–6</p>
+          <p class="text-xs text-[#9C8872] mt-0.5">años de edad</p>
+        </div>
+      </div>
 
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
+  <!-- ══════════════════════════════════════════════
        EL PROBLEMA
-  ═══════════════════════════════════════════════════════ -->
-  <section class="px-5 py-24 bg-white border-t border-[#E5E7EB]">
+  ══════════════════════════════════════════════ -->
+  <section class="px-5 py-24 bg-white border-t border-[#E8E0D5]">
     <div class="max-w-2xl mx-auto">
 
-      <h2 class="text-2xl md:text-3xl font-semibold text-primary mb-8 leading-snug">
+      <h2 class="lora text-2xl md:text-[1.85rem] font-semibold text-[#1A1208] mb-8 leading-snug">
         El problema no es el niño.<br/>
-        <span class="font-normal text-text-primary">Es el punto de partida.</span>
+        <span class="font-normal text-[#6B5E4E]">Es el punto de partida.</span>
       </h2>
 
-      <div class="space-y-5 text-base md:text-lg text-text-primary leading-relaxed">
+      <div class="space-y-5 text-base md:text-[1.05rem] text-[#4A3E32] leading-[1.75]">
         <p>
           Cuando un niño tiene dificultades para escribir, la respuesta habitual es más práctica: más cuadernos, más letras, más repetición. Eso rara vez funciona porque parte de la premisa equivocada.
         </p>
         <p>
           La escritura es el resultado de tres procesos que deben estar activos antes de que el lápiz toque el papel: coordinación bilateral, rastreo visual y control motor fino. No son habilidades innatas. Son construcciones. Y se construyen en orden.
         </p>
-        <p class="font-medium text-primary">
+        <p class="font-medium text-[#C4622D]">
           Los workbooks genéricos empiezan por las letras. Este kit empieza por donde debe.
         </p>
       </div>
@@ -72,71 +95,61 @@ const seo = {
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
+  <!-- ══════════════════════════════════════════════
        QUÉ INCLUYE
-  ═══════════════════════════════════════════════════════ -->
-  <section class="px-5 py-24 bg-[#FAFAF9] border-t border-[#E5E7EB]">
+  ══════════════════════════════════════════════ -->
+  <section class="px-5 py-28 bg-[#FAF8F3] border-t border-[#E8E0D5]">
     <div class="max-w-2xl mx-auto">
 
-      <p class="text-xs font-semibold tracking-widest text-secondary uppercase mb-4">El kit incluye</p>
-      <h2 class="text-2xl md:text-3xl font-semibold text-primary mb-16 leading-snug">
+      <p class="text-xs font-semibold tracking-[0.18em] text-[#C4622D] uppercase mb-5">El kit incluye</p>
+      <h2 class="lora text-2xl md:text-[1.85rem] font-semibold text-[#1A1208] mb-18 leading-snug">
         Cuatro materiales.<br/>
-        <span class="font-normal text-text-primary">Una secuencia con lógica.</span>
+        <span class="font-normal text-[#6B5E4E]">Una secuencia con lógica.</span>
       </h2>
 
-      <div class="space-y-14">
+      <div class="mt-14 space-y-0 divide-y divide-[#E8E0D5]">
 
-        <!-- Item 1 -->
-        <div class="flex gap-8 items-start">
-          <span class="text-5xl font-bold text-primary opacity-15 leading-none select-none flex-shrink-0 w-12 text-right">01</span>
+        <div class="py-10 flex gap-8 md:gap-12 items-start">
+          <span class="lora text-[3.5rem] font-semibold text-[#C4622D] opacity-25 leading-none select-none flex-shrink-0 pt-1">1</span>
           <div>
-            <h3 class="text-lg font-semibold text-primary mb-2">Activar dos hemisferios</h3>
-            <p class="text-base text-text-secondary leading-relaxed">
+            <h3 class="text-base font-semibold text-[#1A1208] mb-2 tracking-tight">Activar dos hemisferios</h3>
+            <p class="text-[0.95rem] text-[#6B5E4E] leading-[1.75]">
               Ejercicios de trazado en espiral y contornos de manos. Activan la coordinación neuromotora bilateral: el primer requisito para controlar el lápiz. Sin este paso, el trazo es inconsistente sin importar cuánto se practique.
             </p>
-            <p class="text-sm text-secondary mt-3 font-medium">8 páginas imprimibles</p>
+            <p class="text-xs text-[#C4622D] mt-4 font-semibold tracking-wide uppercase">8 páginas imprimibles</p>
           </div>
         </div>
 
-        <div class="border-t border-[#E5E7EB]"></div>
-
-        <!-- Item 2 -->
-        <div class="flex gap-8 items-start">
-          <span class="text-5xl font-bold text-primary opacity-15 leading-none select-none flex-shrink-0 w-12 text-right">02</span>
+        <div class="py-10 flex gap-8 md:gap-12 items-start">
+          <span class="lora text-[3.5rem] font-semibold text-[#C4622D] opacity-25 leading-none select-none flex-shrink-0 pt-1">2</span>
           <div>
-            <h3 class="text-lg font-semibold text-primary mb-2">Ejercicios de rastreo visual</h3>
-            <p class="text-base text-text-secondary leading-relaxed">
-              5 fichas de discriminación visual con animales. El niño identifica, rodea y colorea según la especie. Entrena la atención sostenida y el escaneo izquierda-derecha, el movimiento que la lectura requiere antes que cualquier letra.
+            <h3 class="text-base font-semibold text-[#1A1208] mb-2 tracking-tight">Ejercicios de rastreo visual</h3>
+            <p class="text-[0.95rem] text-[#6B5E4E] leading-[1.75]">
+              5 fichas de discriminación visual con animales. El niño identifica, rodea y colorea según la especie. Entrena la atención sostenida y el escaneo izquierda-derecha: el movimiento que la lectura requiere antes que cualquier letra.
             </p>
-            <p class="text-sm text-secondary mt-3 font-medium">5 fichas temáticas imprimibles</p>
+            <p class="text-xs text-[#C4622D] mt-4 font-semibold tracking-wide uppercase">5 fichas temáticas imprimibles</p>
           </div>
         </div>
 
-        <div class="border-t border-[#E5E7EB]"></div>
-
-        <!-- Item 3 -->
-        <div class="flex gap-8 items-start">
-          <span class="text-5xl font-bold text-primary opacity-15 leading-none select-none flex-shrink-0 w-12 text-right">03</span>
+        <div class="py-10 flex gap-8 md:gap-12 items-start">
+          <span class="lora text-[3.5rem] font-semibold text-[#C4622D] opacity-25 leading-none select-none flex-shrink-0 pt-1">3</span>
           <div>
-            <h3 class="text-lg font-semibold text-primary mb-2">Trazo de alfabeto A-Z</h3>
-            <p class="text-base text-text-secondary leading-relaxed">
-              Las 26 letras del abecedario en mayúscula y minúscula. Cada página incluye el orden de trazo numerado, líneas guía y espacio para práctica libre. Sin decoración innecesaria, solo la letra y cómo trazarla correctamente desde el principio.
+            <h3 class="text-base font-semibold text-[#1A1208] mb-2 tracking-tight">Trazo de alfabeto A-Z</h3>
+            <p class="text-[0.95rem] text-[#6B5E4E] leading-[1.75]">
+              Las 26 letras en mayúscula y minúscula. Cada página incluye el orden de trazo numerado, líneas guía y espacio para práctica libre. Sin decoración innecesaria, solo la letra y cómo trazarla correctamente desde el principio.
             </p>
-            <p class="text-sm text-secondary mt-3 font-medium">26 páginas imprimibles (una por letra)</p>
+            <p class="text-xs text-[#C4622D] mt-4 font-semibold tracking-wide uppercase">26 páginas imprimibles · una por letra</p>
           </div>
         </div>
 
-        <div class="border-t border-[#E5E7EB]"></div>
-
-        <!-- Item 4 -->
-        <div class="flex gap-8 items-start">
-          <span class="text-5xl font-bold text-primary opacity-15 leading-none select-none flex-shrink-0 w-12 text-right">04</span>
+        <div class="py-10 flex gap-8 md:gap-12 items-start">
+          <span class="lora text-[3.5rem] font-semibold text-[#C4622D] opacity-25 leading-none select-none flex-shrink-0 pt-1">4</span>
           <div>
-            <h3 class="text-lg font-semibold text-primary mb-2">Plantilla editable en Canva</h3>
-            <p class="text-base text-text-secondary leading-relaxed">
-              Una plantilla personalizable para que padres y maestras adapten las actividades a su contexto. Se usa desde Canva, sin instalar nada. Editable, imprimible y reusable cuantas veces se necesite.
+            <h3 class="text-base font-semibold text-[#1A1208] mb-2 tracking-tight">Plantilla editable en Canva</h3>
+            <p class="text-[0.95rem] text-[#6B5E4E] leading-[1.75]">
+              Una plantilla personalizable para adaptar las actividades. Se usa directo en Canva, sin instalar nada. Editable, imprimible, reusable cuantas veces se necesite.
             </p>
-            <p class="text-sm text-secondary mt-3 font-medium">Acceso a plantilla Canva</p>
+            <p class="text-xs text-[#C4622D] mt-4 font-semibold tracking-wide uppercase">Acceso a plantilla Canva</p>
           </div>
         </div>
 
@@ -144,51 +157,51 @@ const seo = {
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
-       POR QUÉ FUNCIONA
-  ═══════════════════════════════════════════════════════ -->
-  <section class="px-5 py-24 bg-primary text-white border-t border-primary">
+  <!-- ══════════════════════════════════════════════
+       LA SECUENCIA (oscuro)
+  ══════════════════════════════════════════════ -->
+  <section class="px-5 py-28 bg-[#2A1F14] border-t border-[#1A1208]">
     <div class="max-w-2xl mx-auto">
 
-      <p class="text-xs font-semibold tracking-widest text-secondary uppercase mb-4 opacity-80">La diferencia</p>
-      <h2 class="text-2xl md:text-3xl font-semibold mb-10 leading-snug">
+      <p class="text-xs font-semibold tracking-[0.18em] text-[#C4622D] uppercase mb-5">La diferencia</p>
+      <h2 class="lora text-2xl md:text-[1.85rem] font-semibold text-[#FAF8F3] mb-16 leading-snug">
         No es un cuaderno más.<br/>
-        <span class="font-normal opacity-80">Es una secuencia con propósito.</span>
+        <span class="font-normal text-[#9C8872]">Es una secuencia con propósito.</span>
       </h2>
 
-      <div class="space-y-0">
+      <div class="space-y-0 divide-y divide-white/8">
 
-        <div class="flex gap-6 items-start py-8 border-t border-white/10">
-          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center mt-0.5">
-            <span class="text-secondary text-sm font-bold">1</span>
+        <div class="py-10 flex gap-6 items-start">
+          <div class="flex-shrink-0 w-7 h-7 rounded-full border border-[#C4622D]/40 flex items-center justify-center mt-0.5">
+            <span class="text-[#C4622D] text-xs font-bold">1</span>
           </div>
           <div>
-            <h3 class="font-semibold text-white mb-1">Coordinación bilateral</h3>
-            <p class="text-white/60 text-base leading-relaxed">
+            <h3 class="font-semibold text-[#FAF8F3] mb-2 text-base">Coordinación bilateral</h3>
+            <p class="text-[#9C8872] text-sm leading-[1.8]">
               Los dos hemisferios trabajando juntos. Los ejercicios de espiral y manos lo activan antes de que el lápiz entre en juego.
             </p>
           </div>
         </div>
 
-        <div class="flex gap-6 items-start py-8 border-t border-white/10">
-          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center mt-0.5">
-            <span class="text-secondary text-sm font-bold">2</span>
+        <div class="py-10 flex gap-6 items-start">
+          <div class="flex-shrink-0 w-7 h-7 rounded-full border border-[#C4622D]/40 flex items-center justify-center mt-0.5">
+            <span class="text-[#C4622D] text-xs font-bold">2</span>
           </div>
           <div>
-            <h3 class="font-semibold text-white mb-1">Rastreo visual</h3>
-            <p class="text-white/60 text-base leading-relaxed">
-              Los ojos aprenden a escanear y discriminar antes de leer. Las fichas de animales construyen esa habilidad de forma natural.
+            <h3 class="font-semibold text-[#FAF8F3] mb-2 text-base">Rastreo visual</h3>
+            <p class="text-[#9C8872] text-sm leading-[1.8]">
+              Los ojos aprenden a escanear y discriminar antes de leer. Las fichas de animales construyen esa habilidad de forma natural y gradual.
             </p>
           </div>
         </div>
 
-        <div class="flex gap-6 items-start py-8 border-t border-white/10">
-          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center mt-0.5">
-            <span class="text-secondary text-sm font-bold">3</span>
+        <div class="py-10 flex gap-6 items-start">
+          <div class="flex-shrink-0 w-7 h-7 rounded-full border border-[#C4622D]/40 flex items-center justify-center mt-0.5">
+            <span class="text-[#C4622D] text-xs font-bold">3</span>
           </div>
           <div>
-            <h3 class="font-semibold text-white mb-1">Control motor y trazo</h3>
-            <p class="text-white/60 text-base leading-relaxed">
+            <h3 class="font-semibold text-[#FAF8F3] mb-2 text-base">Control motor y trazo</h3>
+            <p class="text-[#9C8872] text-sm leading-[1.8]">
               Solo entonces las letras. Con orden de trazo correcto desde el primer día, porque los hábitos motores son difíciles de corregir después.
             </p>
           </div>
@@ -199,21 +212,21 @@ const seo = {
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
+  <!-- ══════════════════════════════════════════════
        PARA QUIÉN
-  ═══════════════════════════════════════════════════════ -->
-  <section class="px-5 py-24 bg-white border-t border-[#E5E7EB]">
+  ══════════════════════════════════════════════ -->
+  <section class="px-5 py-28 bg-white border-t border-[#E8E0D5]">
     <div class="max-w-2xl mx-auto">
 
-      <h2 class="text-2xl md:text-3xl font-semibold text-primary mb-12 leading-snug">
+      <h2 class="lora text-2xl md:text-[1.85rem] font-semibold text-[#1A1208] mb-16 leading-snug">
         Para quién tiene sentido este kit
       </h2>
 
-      <div class="grid md:grid-cols-2 gap-10">
+      <div class="grid md:grid-cols-2 gap-12">
 
         <div>
-          <p class="text-xs font-semibold tracking-widest text-secondary uppercase mb-5">Tiene sentido si</p>
-          <ul class="space-y-4">
+          <p class="text-xs font-semibold tracking-[0.18em] text-[#C4622D] uppercase mb-7">Tiene sentido si</p>
+          <ul class="space-y-5">
             {[
               'Tu hijo tiene entre 3 y 6 años y quieres prepararlo antes de que la escritura formal llegue',
               'Buscas material con estructura, no actividades sueltas',
@@ -221,10 +234,11 @@ const seo = {
               'Ya trabajas rutinas y quieres un complemento con lógica neuromotora',
               'Eres maestra de preescolar buscando material sin relleno',
             ].map(item => (
-              <li class="flex gap-3 items-start text-base text-text-primary leading-relaxed">
-                <span class="flex-shrink-0 w-5 h-5 rounded-full bg-secondary/15 flex items-center justify-center mt-0.5">
-                  <svg class="w-3 h-3 text-secondary" fill="none" viewBox="0 0 12 12" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2 6l3 3 5-5"/>
+              <li class="flex gap-3 items-start text-sm text-[#4A3E32] leading-[1.7]">
+                <span class="flex-shrink-0 text-[#C4622D] mt-0.5">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <circle cx="7" cy="7" r="6.5" stroke="#C4622D" stroke-opacity="0.3"/>
+                    <path d="M4 7l2 2.5 4-4" stroke="#C4622D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </span>
                 <span>{item}</span>
@@ -234,18 +248,19 @@ const seo = {
         </div>
 
         <div>
-          <p class="text-xs font-semibold tracking-widest text-[#9CA3AF] uppercase mb-5">No aplica si</p>
-          <ul class="space-y-4">
+          <p class="text-xs font-semibold tracking-[0.18em] text-[#9C8872] uppercase mb-7">No aplica si</p>
+          <ul class="space-y-5">
             {[
               'Buscas resultados visibles en menos de una semana',
               'Esperas que el material reemplace evaluación o terapia especializada',
               'Quieres algo entretenido sin estructura de fondo',
               'Tu hijo ya tiene diagnóstico activo sin acompañamiento profesional',
             ].map(item => (
-              <li class="flex gap-3 items-start text-base text-text-secondary leading-relaxed">
-                <span class="flex-shrink-0 w-5 h-5 rounded-full bg-[#F3F4F6] flex items-center justify-center mt-0.5">
-                  <svg class="w-3 h-3 text-[#9CA3AF]" fill="none" viewBox="0 0 12 12" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l6 6M9 3l-6 6"/>
+              <li class="flex gap-3 items-start text-sm text-[#9C8872] leading-[1.7]">
+                <span class="flex-shrink-0 mt-0.5">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <circle cx="7" cy="7" r="6.5" stroke="#9C8872" stroke-opacity="0.3"/>
+                    <path d="M5 5l4 4M9 5l-4 4" stroke="#9C8872" stroke-width="1.5" stroke-linecap="round"/>
                   </svg>
                 </span>
                 <span>{item}</span>
@@ -259,56 +274,68 @@ const seo = {
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
+  <!-- ══════════════════════════════════════════════
        CTA FINAL
-  ═══════════════════════════════════════════════════════ -->
-  <section class="px-5 py-24 bg-[#FAFAF9] border-t border-[#E5E7EB]">
-    <div class="max-w-lg mx-auto text-center">
+  ══════════════════════════════════════════════ -->
+  <section class="px-5 py-28 bg-[#FAF8F3] border-t border-[#E8E0D5]">
+    <div class="max-w-lg mx-auto">
 
-      <p class="text-xs font-semibold tracking-widest text-secondary uppercase mb-6 opacity-80">Descarga inmediata</p>
+      <p class="text-xs font-semibold tracking-[0.18em] text-[#C4622D] uppercase mb-6">Descarga inmediata</p>
 
-      <h2 class="text-2xl md:text-3xl font-semibold text-primary mb-4 leading-snug">
+      <h2 class="lora text-2xl md:text-[1.85rem] font-semibold text-[#1A1208] mb-10 leading-snug">
         Kit de Lectoescritura Temprana
       </h2>
 
-      <p class="text-4xl font-semibold text-primary mt-6 mb-2">$197 <span class="text-xl font-normal text-text-secondary">MXN</span></p>
-      <p class="text-sm text-text-secondary mb-8">Pago único · Acceso permanente</p>
-
-      <ul class="text-left space-y-3 mb-10 max-w-sm mx-auto">
+      <ul class="space-y-3 mb-10">
         {[
-          'Activar dos hemisferios (8 páginas)',
-          'Ejercicios de rastreo visual (5 fichas)',
-          'Trazo de alfabeto A-Z (26 páginas)',
-          'Plantilla editable en Canva',
-        ].map(item => (
-          <li class="flex gap-3 items-center text-sm text-text-primary">
-            <svg class="w-4 h-4 text-secondary flex-shrink-0" fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l4 4 6-6"/>
+          ['Activar dos hemisferios', '8 páginas'],
+          ['Ejercicios de rastreo visual', '5 fichas'],
+          ['Trazo de alfabeto A-Z', '26 páginas'],
+          ['Plantilla editable en Canva', ''],
+        ].map(([name, detail]) => (
+          <li class="flex items-center gap-3 text-sm text-[#4A3E32]">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="flex-shrink-0">
+              <circle cx="7" cy="7" r="6.5" stroke="#C4622D" stroke-opacity="0.3"/>
+              <path d="M4 7l2 2.5 4-4" stroke="#C4622D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            {item}
+            <span class="font-medium">{name}</span>
+            {detail && <span class="text-[#9C8872]">· {detail}</span>}
           </li>
         ))}
       </ul>
 
+      <div class="border-t border-[#E8E0D5] pt-8 mb-8">
+        <p class="text-[2.5rem] font-semibold text-[#1A1208] lora leading-none">$197 <span class="text-lg font-normal text-[#9C8872]">MXN</span></p>
+        <p class="text-sm text-[#9C8872] mt-2">Pago único · Acceso permanente</p>
+      </div>
+
       <a
         href={STRIPE_LINK}
-        class="inline-block bg-primary text-white text-base font-medium px-8 py-4 rounded-md hover:bg-cta-hover transition-colors duration-200 w-full"
+        class="block bg-[#C4622D] text-white text-base font-semibold px-8 py-4 rounded text-center hover:bg-[#A3511F] transition-colors duration-200"
       >
         Obtener el kit completo
       </a>
 
-      <p class="text-xs text-text-secondary mt-5 opacity-60">
-        Pago seguro con tarjeta · Stripe · Descarga inmediata al correo
+      <div class="mt-5 flex items-center justify-center gap-2 text-xs text-[#9C8872]">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <rect x="1" y="4" width="10" height="7" rx="1" stroke="#9C8872" stroke-width="1.2"/>
+          <path d="M4 4V3a2 2 0 014 0v1" stroke="#9C8872" stroke-width="1.2"/>
+        </svg>
+        <span>Pago seguro con Stripe · Descarga inmediata</span>
+      </div>
+
+      <p class="text-xs text-[#B8A898] text-center mt-6 leading-relaxed">
+        Este material es educativo. No reemplaza evaluación ni terapia especializada.
       </p>
 
     </div>
   </section>
 
   <!-- Mobile sticky CTA -->
-  <div class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#E5E7EB] px-4 py-3 md:hidden shadow-lg">
+  <div class="fixed bottom-0 left-0 right-0 z-50 bg-[#2A1F14] border-t border-[#3D2E1E] px-4 py-3 md:hidden">
     <a
       href={STRIPE_LINK}
-      class="block bg-primary text-white text-sm font-medium px-6 py-3 rounded-md text-center hover:bg-cta-hover transition-colors duration-200"
+      class="block bg-[#C4622D] text-white text-sm font-semibold px-6 py-3 rounded text-center hover:bg-[#A3511F] transition-colors duration-200"
     >
       Obtener el kit — $197 MXN
     </a>
