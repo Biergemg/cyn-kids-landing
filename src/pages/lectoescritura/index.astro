@@ -94,7 +94,7 @@ const notFit = [
         <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d87982]/30 to-transparent"></div>
       </div>
 
-      <div class="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[0.92fr_1.08fr]">
+      <div class="relative mx-auto grid max-w-6xl items-center gap-8 lg:gap-12 lg:grid-cols-[0.92fr_1.08fr]">
         <div class="order-2 lg:order-1">
           <div class="mb-7 inline-flex items-center gap-2 rounded-full border border-[#eac8c7] bg-[#fffdf8]/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#bf5d69]">
             <span class="h-2 w-2 rounded-full bg-[#d87982]"></span>
@@ -180,9 +180,9 @@ const notFit = [
           </h2>
         </div>
 
-        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {kitItems.map((item, index) => (
-            <article class="group rounded-[1.6rem] border border-[#ead9ca] bg-[#fffdf8] p-5 transition duration-200 hover:-translate-y-1 hover:border-[#d87982]/45 hover:shadow-xl hover:shadow-[#bf5d69]/10 lg:min-h-[280px]">
+            <article class={`group rounded-[1.6rem] border border-[#ead9ca] bg-[#fffdf8] p-5 transition duration-200 hover:-translate-y-1 hover:border-[#d87982]/45 hover:shadow-xl hover:shadow-[#bf5d69]/10 lg:min-h-[280px]${index === kitItems.length - 1 ? ' sm:col-span-2 lg:col-span-1' : ''}`}>
               <div class="mb-8 flex items-center justify-between">
                 <span class="display text-4xl font-bold text-[#e4b0b5]">{String(index + 1).padStart(2, '0')}</span>
                 <span class="h-3 w-3 rounded-full bg-[#d87982]/55 transition group-hover:bg-[#bf5d69]"></span>
@@ -226,11 +226,11 @@ const notFit = [
     <!-- Value -->
     <section class="bg-[#fffdf8] px-5 py-20 md:py-28">
       <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-        <div class="relative max-w-md">
+        <div class="relative mx-auto max-w-md lg:max-w-none lg:mx-0">
           <img
             src="/images/lectoescritura-mockup.png"
             alt="Vista del producto descargable Kit de Inicio a la Lectoescritura"
-            class="rounded-[1.6rem] border border-[#ead9ca] soft-shadow"
+            class="w-full rounded-[1.6rem] border border-[#ead9ca] soft-shadow"
             loading="lazy"
             decoding="async"
           />
