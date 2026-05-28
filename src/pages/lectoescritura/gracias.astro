@@ -22,7 +22,10 @@ if (FB_TOKEN) {
   let clientIp: string | undefined;
   try { clientIp = Astro.clientAddress; } catch (_) {}
 
+  const testCode = import.meta.env.FB_TEST_EVENT_CODE;
+
   const payload = {
+    ...(testCode ? { test_event_code: testCode } : {}),
     data: [{
       event_name: 'Purchase',
       event_time: Math.floor(Date.now() / 1000),
