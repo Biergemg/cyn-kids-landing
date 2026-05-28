@@ -21,6 +21,8 @@ if (FB_TOKEN) {
   const fbp = Astro.cookies.get('_fbp')?.value ?? undefined;
   let clientIp: string | undefined;
   try { clientIp = Astro.clientAddress; } catch (_) {}
+  // Vercel siempre envía x-forwarded-for; fallback si Astro.clientAddress no está disponible
+  if (!clientIp) clientIp = Astro.request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
 
   const testCode = import.meta.env.FB_TEST_EVENT_CODE;
 
