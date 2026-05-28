@@ -325,4 +325,80 @@ const notFit = [
       </a>
     </div>
   </main>
+
+  <!-- ══════════════════════════════════════════════
+       TRACKING — Facebook Pixel + GTM ecommerce
+       ViewContent on load · InitiateCheckout on click
+       UTM params forwarded to Stripe link
+  ══════════════════════════════════════════════ -->
+  <script is:inline>
+  (function () {
+    var PRODUCT = {
+      content_name: 'Kit de Inicio a la Lectoescritura',
+      content_category: 'Producto Digital',
+      content_ids: ['kit-lectoescritura'],
+      content_type: 'product',
+      value: 197,
+      currency: 'MXN',
+    };
+
+    // 1. ViewContent
+    if (window.fbq) {
+      window.fbq('track', 'ViewContent', PRODUCT);
+    }
+
+    // GTM / GA4 view_item
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ ecommerce: null });
+    window.dataLayer.push({
+      event: 'view_item',
+      ecommerce: {
+        currency: 'MXN',
+        value: 197,
+        items: [{ item_id: 'kit-lectoescritura', item_name: PRODUCT.content_name, price: 197, quantity: 1 }],
+      },
+    });
+
+    // 2. UTM forwarding + InitiateCheckout on CTA click
+    var currentParams = new URLSearchParams(window.location.search);
+    var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'];
+
+    document.querySelectorAll('a[href*="buy.stripe.com"]').forEach(function (btn) {
+      // Forward UTMs to Stripe link
+      try {
+        var url = new URL(btn.href);
+        UTM_KEYS.forEach(function (k) {
+          var v = currentParams.get(k);
+          if (v) url.searchParams.set(k, v);
+        });
+        btn.href = url.toString();
+      } catch (_) {}
+
+      btn.addEventListener('click', function () {
+        // InitiateCheckout
+        if (window.fbq) {
+          window.fbq('track', 'InitiateCheckout', {
+            content_name: PRODUCT.content_name,
+            content_ids: PRODUCT.content_ids,
+            content_type: PRODUCT.content_type,
+            value: PRODUCT.value,
+            currency: PRODUCT.currency,
+            num_items: 1,
+          });
+        }
+        // GTM / GA4 begin_checkout
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ ecommerce: null });
+        window.dataLayer.push({
+          event: 'begin_checkout',
+          ecommerce: {
+            currency: 'MXN',
+            value: 197,
+            items: [{ item_id: 'kit-lectoescritura', item_name: PRODUCT.content_name, price: 197, quantity: 1 }],
+          },
+        });
+      });
+    });
+  })();
+  </script>
 </BaseLayout>

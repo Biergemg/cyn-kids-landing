@@ -1,12 +1,62 @@
 ---
 export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import crypto from 'node:crypto';
 
 // UUID del directorio de descarga. No cambiar ni compartir públicamente.
 const DL = "/dl/475068dba4230539160d";
 
 // Canva: link de plantilla, no link de edición.
 const CANVA_TEMPLATE_URL = "https://canva.link/1po9unthgj2y8mh";
+
+// ── Facebook Conversions API (server-side Purchase) ─────────────────────────
+const FB_PIXEL_ID = import.meta.env.FB_PIXEL_ID ?? '1024976901790952';
+const FB_TOKEN    = import.meta.env.FB_ACCESS_TOKEN;
+
+// event_id usado para deduplicación con el pixel de browser
+const eventId = crypto.randomUUID();
+
+if (FB_TOKEN) {
+  const fbc = Astro.cookies.get('_fbc')?.value ?? undefined;
+  const fbp = Astro.cookies.get('_fbp')?.value ?? undefined;
+  let clientIp: string | undefined;
+  try { clientIp = Astro.clientAddress; } catch (_) {}
+
+  const payload = {
+    data: [{
+      event_name: 'Purchase',
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: eventId,
+      event_source_url: Astro.url.href,
+      action_source: 'website',
+      user_data: {
+        ...(fbc ? { fbc } : {}),
+        ...(fbp ? { fbp } : {}),
+        ...(clientIp ? { client_ip_address: clientIp } : {}),
+        client_user_agent: Astro.request.headers.get('user-agent') ?? '',
+      },
+      custom_data: {
+        value: 197,
+        currency: 'MXN',
+        content_name: 'Kit de Inicio a la Lectoescritura',
+        content_ids: ['kit-lectoescritura'],
+        content_type: 'product',
+        num_items: 1,
+      },
+    }],
+  };
+
+  try {
+    const res = await fetch(
+      `https://graph.facebook.com/v19.0/${FB_PIXEL_ID}/events?access_token=${FB_TOKEN}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }
+    );
+    if (!res.ok) console.error('[CAPI] error:', await res.text());
+  } catch (err) {
+    console.error('[CAPI] fetch failed:', err);
+  }
+}
+// ───────────────────────────────────────────────────────────────────────────
 
 const seo = {
   title: 'Descarga tu Kit de Lectoescritura | Cyn',
@@ -137,4 +187,38 @@ const downloads = [
       </div>
     </section>
   </main>
+
+  <!-- ══════════════════════════════════════════════
+       TRACKING — Facebook Pixel Purchase + GTM
+       event_id sincronizado con CAPI server-side
+  ══════════════════════════════════════════════ -->
+  <script is:inline define:vars={{ eventId }}>
+  (function () {
+    // Browser-side Purchase — event_id deduplicates with CAPI server event
+    if (window.fbq) {
+      window.fbq('track', 'Purchase', {
+        value: 197,
+        currency: 'MXN',
+        content_name: 'Kit de Inicio a la Lectoescritura',
+        content_ids: ['kit-lectoescritura'],
+        content_type: 'product',
+        num_items: 1,
+      }, { eventID: eventId });
+    }
+
+    // GTM / GA4 purchase
+    var sessionId = new URLSearchParams(window.location.search).get('session_id') ?? '';
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ ecommerce: null });
+    window.dataLayer.push({
+      event: 'purchase',
+      ecommerce: {
+        transaction_id: sessionId,
+        value: 197,
+        currency: 'MXN',
+        items: [{ item_id: 'kit-lectoescritura', item_name: 'Kit de Inicio a la Lectoescritura', price: 197, quantity: 1 }],
+      },
+    });
+  })();
+  </script>
 </BaseLayout>
