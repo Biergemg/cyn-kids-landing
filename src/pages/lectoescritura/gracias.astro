@@ -31,14 +31,15 @@ if (!sessionId) {
       const session = await stripeRes.json() as { payment_status: string };
       paymentVerified = session.payment_status === 'paid';
       if (!paymentVerified) {
-        console.error('[stripe-verify] payment_status:', session.payment_status, 'session:', sessionId);
+        console.error('[stripe-verify] payment_status no es paid:', session.payment_status, 'session:', sessionId);
       }
     } else {
-      console.error('[stripe-verify] Stripe API error:', stripeRes.status, await stripeRes.text());
-      // Si la API de Stripe falla, permitir acceso si hay session_id (degradación segura)
-      paymentVerified = true;
+      // Stripe devolvió error (sesión inválida, expirada, etc.) — bloquear acceso
+      console.error('[stripe-verify] Stripe API error:', stripeRes.status, sessionId);
+      paymentVerified = false;
     }
   } catch (err) {
+    // Solo en falla de red total: permitir acceso si hay session_id para no bloquear compradores reales
     console.error('[stripe-verify] fetch failed:', err);
     paymentVerified = true;
   }
