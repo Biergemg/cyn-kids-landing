@@ -363,6 +363,16 @@ const notFit = [
     var currentParams = new URLSearchParams(window.location.search);
     var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'];
 
+    // Persistir fbclid en cookie first-party para CAPI en /gracias
+    var _fbclid = currentParams.get('fbclid');
+    if (_fbclid) {
+      var _cookieExp = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString();
+      document.cookie = 'fbclid=' + encodeURIComponent(_fbclid) + '; path=/; expires=' + _cookieExp + '; SameSite=Lax';
+      if (!document.cookie.includes('_fbc=')) {
+        document.cookie = '_fbc=fb.1.' + Math.floor(Date.now() / 1000) + '.' + encodeURIComponent(_fbclid) + '; path=/; expires=' + _cookieExp + '; SameSite=Lax';
+      }
+    }
+
     document.querySelectorAll('a[href*="buy.stripe.com"]').forEach(function (btn) {
       // Forward UTMs to Stripe link
       try {

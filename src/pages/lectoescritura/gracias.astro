@@ -14,10 +14,10 @@ const sessionId = Astro.url.searchParams.get('session_id') ?? null;
 const eventId   = crypto.randomUUID();
 
 // ── Verificación de pago con Stripe ──────────────────────────────────────────
-// Con STRIPE_SECRET_KEY: verifica payment_status === 'paid' contra API de Stripe.
-// Sin STRIPE_SECRET_KEY: requiere session_id en URL (degradación hasta configurar la key).
-// Sin session_id: siempre bloquea — no hay compra válida.
 let paymentVerified = false;
+let stripeEmail: string | undefined;
+let stripePhone: string | undefined;
+let stripeSessionExtId: string | undefined;
 
 if (!sessionId) {
   paymentVerified = false;
@@ -28,13 +28,23 @@ if (!sessionId) {
       { headers: { 'Authorization': `Bearer ${STRIPE_KEY}` } }
     );
     if (stripeRes.ok) {
-      const session = await stripeRes.json() as { payment_status: string };
+      const session = await stripeRes.json() as {
+        payment_status: string;
+        id: string;
+        customer_email?: string | null;
+        customer_details?: { email?: string | null; phone?: string | null } | null;
+      };
       paymentVerified = session.payment_status === 'paid';
-      if (!paymentVerified) {
+      if (paymentVerified) {
+        const rawEmail = session.customer_details?.email ?? session.customer_email;
+        if (rawEmail) stripeEmail = rawEmail.trim().toLowerCase();
+        const rawPhone = session.customer_details?.phone;
+        if (rawPhone) stripePhone = rawPhone.replace(/\D/g, '');
+        stripeSessionExtId = session.id;
+      } else {
         console.error('[stripe-verify] payment_status no es paid:', session.payment_status, 'session:', sessionId);
       }
     } else {
-      // Stripe devolvió error (sesión inválida, expirada, etc.) — bloquear acceso
       console.error('[stripe-verify] Stripe API error:', stripeRes.status, sessionId);
       paymentVerified = false;
     }
@@ -44,19 +54,36 @@ if (!sessionId) {
     paymentVerified = true;
   }
 } else {
-  // STRIPE_SECRET_KEY no configurada — requiere session_id (comportamiento anterior)
   paymentVerified = true;
 }
 
 // ── Facebook Conversions API — solo en pago verificado ───────────────────────
 if (paymentVerified && FB_TOKEN) {
-  const fbc = Astro.cookies.get('_fbc')?.value ?? undefined;
-  const fbp = Astro.cookies.get('_fbp')?.value ?? undefined;
+  const sha256 = (s: string) => crypto.createHash('sha256').update(s).digest('hex');
+
+  const fbpCookie = Astro.cookies.get('_fbp')?.value;
+  const fbcCookie = Astro.cookies.get('_fbc')?.value;
+  const fbclidCookie = Astro.cookies.get('fbclid')?.value;
+
+  // Usar _fbc del browser; si no existe, construir desde fbclid persistido en cookie
+  const fbc = fbcCookie
+    ?? (fbclidCookie ? `fb.1.${Math.floor(Date.now() / 1000)}.${fbclidCookie}` : undefined);
+
   let clientIp: string | undefined;
   try { clientIp = Astro.clientAddress; } catch (_) {}
   if (!clientIp) clientIp = Astro.request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
 
   const testCode = import.meta.env.FB_TEST_EVENT_CODE;
+
+  const userData: Record<string, string> = {
+    client_user_agent: Astro.request.headers.get('user-agent') ?? '',
+  };
+  if (clientIp)           userData.client_ip_address = clientIp;
+  if (fbpCookie)          userData.fbp = fbpCookie;
+  if (fbc)                userData.fbc = fbc;
+  if (stripeEmail)        userData.em = sha256(stripeEmail);
+  if (stripePhone)        userData.ph = sha256(stripePhone);
+  if (stripeSessionExtId) userData.external_id = sha256(stripeSessionExtId);
 
   const payload = {
     ...(testCode ? { test_event_code: testCode } : {}),
@@ -66,12 +93,7 @@ if (paymentVerified && FB_TOKEN) {
       event_id: eventId,
       event_source_url: Astro.url.href,
       action_source: 'website',
-      user_data: {
-        ...(fbc ? { fbc } : {}),
-        ...(fbp ? { fbp } : {}),
-        ...(clientIp ? { client_ip_address: clientIp } : {}),
-        client_user_agent: Astro.request.headers.get('user-agent') ?? '',
-      },
+      user_data: userData,
       custom_data: {
         value: 197,
         currency: 'MXN',
