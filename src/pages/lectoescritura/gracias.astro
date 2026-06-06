@@ -11,7 +11,9 @@ const FB_TOKEN    = import.meta.env.FB_ACCESS_TOKEN;
 const STRIPE_KEY  = import.meta.env.STRIPE_SECRET_KEY;
 
 const sessionId = Astro.url.searchParams.get('session_id') ?? null;
-const eventId   = crypto.randomUUID();
+const eventId = sessionId
+  ? crypto.createHash('sha256').update(`purchase:${sessionId}`).digest('hex')
+  : crypto.randomUUID();
 
 // ── Verificación de pago con Stripe ──────────────────────────────────────────
 let paymentVerified = false;
