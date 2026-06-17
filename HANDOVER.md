@@ -35,7 +35,7 @@ Email de confirmación automático deployado y verificado en producción.
 | Función | `src/lib/email/sendLectoEmail.ts` |
 | Disparador | `lectoescritura/gracias.astro` — línea 122, después de CAPI |
 | Gate | `paymentVerified && stripeEmail && sessionId` |
-| Proveedor | Resend (`re_2vLWdvsp_K6DB6USG6UGQFdtYK8cdG1xu`) |
+| Proveedor | Resend (key en Vercel env var `RESEND_API_KEY`) |
 | From | `Cyn - Lectoescritura <info@cynponceglz.com>` |
 | Idempotency | `lecto-{sessionId}` — previene duplicados 24h |
 | Links descarga | `lectoescritura.cynponceglz.com/dl/475068dba4230539160d/*.pdf` |
