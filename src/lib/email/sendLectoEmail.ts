@@ -172,7 +172,7 @@ export async function sendLectoEmail(to: string, sessionId: string): Promise<voi
         from: 'Cyn - Lectoescritura <info@cynponceglz.com>',
         to: [to],
         reply_to: 'info@cynponceglz.com',
-        subject: 'Tu Kit de Lectoescritura esta listo para descargar',
+        subject: 'Tu Kit de Lectoescritura está listo para descargar',
         html: buildHtml(sessionId),
       }),
     });
