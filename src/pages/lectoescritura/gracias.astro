@@ -2,6 +2,7 @@
 export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import crypto from 'node:crypto';
+import { sendLectoEmail } from '../../lib/email/sendLectoEmail';
 
 const DL = "/dl/475068dba4230539160d";
 const CANVA_TEMPLATE_URL = "https://canva.link/1po9unthgj2y8mh";
@@ -116,6 +117,10 @@ if (paymentVerified && FB_TOKEN) {
   } catch (err) {
     console.error('[CAPI] fetch failed:', err);
   }
+}
+// ── Email de confirmación — solo en pago verificado ──────────────────────────
+if (paymentVerified && stripeEmail && sessionId) {
+  await sendLectoEmail(stripeEmail, sessionId);
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
