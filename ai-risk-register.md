@@ -1,6 +1,6 @@
 # AI Risk Register — CYN Kids Landing
 
-Last reviewed: 2026-06-16
+Last reviewed: 2026-06-17
 Reviewed by: claude-sonnet-4-6 + usuario
 
 ---
@@ -11,7 +11,7 @@ Reviewed by: claude-sonnet-4-6 + usuario
 |------|--------|------------|---------------|-----------|--------|
 | CAPI Purchase sin verificación de pago | High | Mitigated (fue real, ya cerrado) | Cambio en /gracias o /lectoescritura/gracias | paymentVerified check en ambas páginas | Monitoring |
 | Recarga de /gracias genera Purchase duplicado en Meta | High | Mitigated (fix 0e6ed71) | Cambio en lógica de eventId | eventId = SHA-256(purchase:sessionId) | Monitoring |
-| STRIPE_SECRET_KEY ausente en local | Medium | High | Cualquier sesión nueva | Crear .env.local con key real; solicitar al usuario | Closed |
+| Email duplicado por recarga después de 24h | Low | Low | Recarga de /lectoescritura/gracias >24h post-compra | Idempotency-Key expira en 24h — riesgo aceptable | Monitoring |
 | Context loss después de compactación | Medium | High | Sesión > 2h o tarea compleja | PreCompact hook guarda a Engram; HANDOVER.md creado | Mitigated |
 | Contract drift (CLAUDE.md desactualizado) | Medium | Medium | Upgrade de dependencias o refactor de arquitectura | pre-commit hook actualiza last_updated automáticamente | Mitigated |
 | Deploy a producción sin verificar payment gate | High | Low | Cambio en src/middleware.ts | middleware.ts en lista de archivos prohibidos | Mitigated |
@@ -34,6 +34,8 @@ Reviewed by: claude-sonnet-4-6 + usuario
 | event_source_url desde dominio no verificado | URL canónica einsteinkids.cynponceglz.com en commit 8348a34 | 2026-06-16 |
 | Dominios sin verificar en Meta Business | einsteinkids + lectoescritura + cynponceglz.com verificados | 2026-06-16 |
 | STRIPE_SECRET_KEY ausente localmente | .env.local creado con todas las credenciales | 2026-06-16 |
+| Correos manuales de recursos post-compra | Email automático Resend en commits 5ff1b28–e323870 | 2026-06-17 |
+| RESEND_API_KEY ausente en Vercel | Agregada por usuario en Vercel dashboard | 2026-06-17 |
 
 ---
 
@@ -45,6 +47,8 @@ verificar `payment_status`. Esto generó eventos falsos en Meta Ads, causando la
 de 5 compras Meta vs 3 pagos reales en Stripe. Este riesgo está cerrado pero debe monitorearse
 en cualquier cambio futuro a las páginas `/gracias`.
 
-**Patrón de riesgo:** Cualquier página de confirmación de pago debe tener `paymentVerified`
-como gate antes de disparar eventos de analytics. La falta de este gate es el anti-patrón
-que causó el incidente.
+**Patrón de riesgo — analytics:** Cualquier página de confirmación de pago debe tener `paymentVerified`
+como gate antes de disparar eventos de analytics (CAPI, Pixel, GTM).
+
+**Patrón de riesgo — email:** Cualquier email post-compra debe usar el mismo gate
+`paymentVerified && stripeEmail && sessionId` y un Idempotency-Key basado en sessionId.
