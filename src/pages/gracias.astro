@@ -5,6 +5,9 @@ const host = Astro.request.headers.get('host') ?? '';
 if (host.startsWith('lectoescritura.')) {
   return Astro.rewrite('/lectoescritura/gracias');
 }
+if (host.startsWith('afirmaciones.')) {
+  return Astro.rewrite('/afirmaciones/gracias');
+}
 
 return Astro.redirect('/', 302);
 ---

@@ -6,6 +6,9 @@ const host = Astro.request.headers.get('host') ?? '';
 if (host.startsWith('lectoescritura.')) {
   return Astro.rewrite('/lectoescritura');
 }
+if (host.startsWith('afirmaciones.')) {
+  return Astro.rewrite('/afirmaciones');
+}
 
 const seo = {
   title: 'Cyn | Entendiendo la biología de la conducta',
