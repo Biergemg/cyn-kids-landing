@@ -135,7 +135,7 @@ const downloads = [
   {
     title: '30 Tarjetas de Afirmaciones Positivas',
     detail: '30 tarjetas imprimibles · PDF',
-    href: `${DL}/tarjetas-afirmaciones-positivas.pdf`,
+    href: `/api/download/afirmaciones?session_id=${encodeURIComponent(sessionId ?? '')}`,
     filename: 'Tarjetas-de-Afirmaciones-Positivas-Cyn.pdf',
   },
 ];

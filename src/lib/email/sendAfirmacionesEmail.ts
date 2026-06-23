@@ -1,15 +1,5 @@
 const RESEND_KEY = import.meta.env.RESEND_API_KEY as string | undefined;
 
-const DL = 'https://afirmaciones.cynponceglz.com/dl/b10bd8f2ba5eebf221c9';
-
-const DOWNLOADS = [
-  {
-    title: '30 Tarjetas de Afirmaciones Positivas',
-    detail: '30 tarjetas imprimibles &middot; PDF completo',
-    url: `${DL}/tarjetas-afirmaciones-positivas.pdf`,
-  },
-];
-
 function downloadRow(title: string, detail: string, url: string): string {
   return `
     <a href="${url}" style="display:block;text-decoration:none;margin-bottom:12px;">
@@ -30,6 +20,15 @@ function downloadRow(title: string, detail: string, url: string): string {
 
 function buildHtml(sessionId: string): string {
   const pageUrl = `https://afirmaciones.cynponceglz.com/gracias?session_id=${encodeURIComponent(sessionId)}`;
+  const downloadUrl = `https://afirmaciones.cynponceglz.com/api/download/afirmaciones?session_id=${encodeURIComponent(sessionId)}`;
+
+  const DOWNLOADS = [
+    {
+      title: '30 Tarjetas de Afirmaciones Positivas',
+      detail: '30 tarjetas imprimibles &middot; PDF completo',
+      url: downloadUrl,
+    },
+  ];
 
   return `<!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml">
