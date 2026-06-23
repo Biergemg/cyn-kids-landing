@@ -9,6 +9,16 @@
       "source": "/gracias",
       "has": [{ "type": "host", "value": "lectoescritura.cynponceglz.com" }],
       "destination": "/lectoescritura/gracias"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "afirmaciones.cynponceglz.com" }],
+      "destination": "/afirmaciones"
+    },
+    {
+      "source": "/gracias",
+      "has": [{ "type": "host", "value": "afirmaciones.cynponceglz.com" }],
+      "destination": "/afirmaciones/gracias"
     }
   ]
 }

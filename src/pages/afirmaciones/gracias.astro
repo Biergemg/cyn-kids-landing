@@ -1,0 +1,285 @@
+---
+export const prerender = false;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import crypto from 'node:crypto';
+import { sendAfirmacionesEmail } from '../../lib/email/sendAfirmacionesEmail';
+
+const DL = "/dl/b10bd8f2ba5eebf221c9";
+
+const FB_PIXEL_ID = import.meta.env.FB_PIXEL_ID ?? '1024976901790952';
+const FB_TOKEN    = import.meta.env.FB_ACCESS_TOKEN;
+const STRIPE_KEY  = import.meta.env.STRIPE_SECRET_KEY;
+
+const sessionId = Astro.url.searchParams.get('session_id') ?? null;
+
+// event_id con namespace propio — no puede colisionar con Lectoescritura (sha256('purchase:...'))
+const eventId = sessionId
+  ? crypto.createHash('sha256').update(`afirmaciones:${sessionId}`).digest('hex')
+  : crypto.randomUUID();
+
+// ── Verificación de pago con Stripe ──────────────────────────────────────────
+let paymentVerified = false;
+let stripeEmail: string | undefined;
+let stripePhone: string | undefined;
+let stripeSessionExtId: string | undefined;
+
+if (!sessionId) {
+  paymentVerified = false;
+} else if (STRIPE_KEY) {
+  try {
+    const stripeRes = await fetch(
+      `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`,
+      { headers: { 'Authorization': `Bearer ${STRIPE_KEY}` } }
+    );
+    if (stripeRes.ok) {
+      const session = await stripeRes.json() as {
+        payment_status: string;
+        id: string;
+        customer_email?: string | null;
+        customer_details?: { email?: string | null; phone?: string | null } | null;
+      };
+      paymentVerified = session.payment_status === 'paid';
+      if (paymentVerified) {
+        const rawEmail = session.customer_details?.email ?? session.customer_email;
+        if (rawEmail) stripeEmail = rawEmail.trim().toLowerCase();
+        const rawPhone = session.customer_details?.phone;
+        if (rawPhone) stripePhone = rawPhone.replace(/\D/g, '');
+        stripeSessionExtId = session.id;
+      } else {
+        console.error('[stripe-verify] payment_status no es paid:', session.payment_status, 'session:', sessionId);
+      }
+    } else {
+      console.error('[stripe-verify] Stripe API error:', stripeRes.status, sessionId);
+      paymentVerified = false;
+    }
+  } catch (err) {
+    // Solo en falla de red total: permitir acceso si hay session_id para no bloquear compradores reales
+    console.error('[stripe-verify] fetch failed:', err);
+    paymentVerified = true;
+  }
+} else {
+  paymentVerified = true;
+}
+
+// ── Facebook Conversions API — solo en pago verificado ───────────────────────
+// event_source_url usa afirmaciones.cynponceglz.com (subdominio de cynponceglz.com verificado en Meta)
+if (paymentVerified && FB_TOKEN) {
+  const sha256 = (s: string) => crypto.createHash('sha256').update(s).digest('hex');
+
+  const fbpCookie = Astro.cookies.get('_fbp')?.value;
+  const fbcCookie = Astro.cookies.get('_fbc')?.value;
+  const fbclidCookie = Astro.cookies.get('fbclid')?.value;
+
+  const fbc = fbcCookie
+    ?? (fbclidCookie ? `fb.1.${Math.floor(Date.now() / 1000)}.${fbclidCookie}` : undefined);
+
+  let clientIp: string | undefined;
+  try { clientIp = Astro.clientAddress; } catch (_) {}
+  if (!clientIp) clientIp = Astro.request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+
+  const testCode = import.meta.env.FB_TEST_EVENT_CODE;
+
+  const userData: Record<string, string> = {
+    client_user_agent: Astro.request.headers.get('user-agent') ?? '',
+  };
+  if (clientIp)           userData.client_ip_address = clientIp;
+  if (fbpCookie)          userData.fbp = fbpCookie;
+  if (fbc)                userData.fbc = fbc;
+  if (stripeEmail)        userData.em = sha256(stripeEmail);
+  if (stripePhone)        userData.ph = sha256(stripePhone);
+  if (stripeSessionExtId) userData.external_id = sha256(stripeSessionExtId);
+
+  const payload = {
+    ...(testCode ? { test_event_code: testCode } : {}),
+    data: [{
+      event_name: 'Purchase',
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: eventId,
+      event_source_url: `https://afirmaciones.cynponceglz.com/gracias${Astro.url.search}`,
+      action_source: 'website',
+      user_data: userData,
+      custom_data: {
+        value: 97,
+        currency: 'MXN',
+        content_name: '30 Tarjetas de Afirmaciones Positivas',
+        content_ids: ['tarjetas-afirmaciones'],
+        content_type: 'product',
+        num_items: 1,
+      },
+    }],
+  };
+
+  try {
+    const res = await fetch(
+      `https://graph.facebook.com/v22.0/${FB_PIXEL_ID}/events?access_token=${FB_TOKEN}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }
+    );
+    if (!res.ok) console.error('[CAPI] error:', await res.text());
+  } catch (err) {
+    console.error('[CAPI] fetch failed:', err);
+  }
+}
+// ── Email de confirmación — solo en pago verificado ──────────────────────────
+if (paymentVerified && stripeEmail && sessionId) {
+  await sendAfirmacionesEmail(stripeEmail, sessionId);
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
+const seo = {
+  title: 'Descarga tus Tarjetas de Afirmaciones | Cyn',
+  description: 'Tu compra fue exitosa. Descarga tus 30 Tarjetas de Afirmaciones Positivas.',
+  noindex: true,
+};
+
+const downloads = [
+  {
+    title: '30 Tarjetas de Afirmaciones Positivas',
+    detail: '30 tarjetas imprimibles · PDF',
+    href: `${DL}/tarjetas-afirmaciones-positivas.pdf`,
+    filename: 'Tarjetas-de-Afirmaciones-Positivas-Cyn.pdf',
+  },
+];
+---
+
+<BaseLayout seo={seo}>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      .afirm-thanks { font-family: 'Manrope', system-ui, sans-serif; background: #fff8ee; color: #392a24; }
+      .display { font-family: 'Libre Baskerville', Georgia, serif; }
+      .soft-shadow { box-shadow: 0 26px 70px rgba(87, 55, 41, 0.14); }
+    </style>
+  </Fragment>
+
+  <main class="afirm-thanks min-h-screen px-5 py-12 md:py-20">
+    <section class="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+      <aside class="lg:sticky lg:top-8">
+        <div class="rounded-[2rem] border border-[#ead9ca] bg-[#fffdf8] p-6 soft-shadow">
+          {paymentVerified ? (
+            <>
+              <div class="mb-7 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#d87982]/16 text-[#bf5d69]">
+                <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#bf5d69]">Compra confirmada</p>
+              <h1 class="display mt-4 text-3xl leading-tight tracking-[-0.03em] text-[#35261f] md:text-4xl">
+                Tus tarjetas están listas para descargar.
+              </h1>
+              <p class="mt-5 text-base leading-7 text-[#79665b]">
+                Guarda esta página. Tu archivo estará disponible desde este enlace sin límite de tiempo.
+              </p>
+            </>
+          ) : (
+            <>
+              <div class="mb-7 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#ead9ca]/60 text-[#79665b]">
+                <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#79665b]">Verificación pendiente</p>
+              <h1 class="display mt-4 text-3xl leading-tight tracking-[-0.03em] text-[#35261f] md:text-4xl">
+                No pudimos verificar tu compra.
+              </h1>
+              <p class="mt-5 text-base leading-7 text-[#79665b]">
+                Si ya realizaste el pago, escríbenos con el correo que usaste al pagar.
+              </p>
+            </>
+          )}
+          <img
+            src="/images/afirmaciones-mockup.png"
+            alt="Mockup de las 30 Tarjetas de Afirmaciones Positivas"
+            class="mt-8 rounded-[1.4rem] border border-[#ead9ca]"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      </aside>
+
+      <div>
+        {paymentVerified ? (
+          <>
+            <div class="mb-6 rounded-[1.5rem] border border-[#ead9ca] bg-[#fffdf8] p-5">
+              <p class="text-sm font-bold text-[#35261f]">Descarga tus 30 Tarjetas de Afirmaciones Positivas</p>
+              <p class="mt-1 text-sm leading-6 text-[#79665b]">Imprime las tarjetas, recórtalas y empieza tu ritual amoroso hoy.</p>
+            </div>
+
+            <div class="space-y-4">
+              {downloads.map((file) => (
+                <a
+                  href={file.href}
+                  download={file.filename}
+                  class="group flex items-center gap-5 rounded-[1.3rem] border border-[#ead9ca] bg-[#fffdf8] p-5 transition duration-200 hover:-translate-y-0.5 hover:border-[#d87982]/55 hover:bg-[#fff3f1] hover:shadow-xl hover:shadow-[#bf5d69]/10"
+                >
+                  <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#d87982]/14 text-[#bf5d69]">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <p class="text-sm font-extrabold text-[#35261f]">{file.title}</p>
+                    <p class="mt-1 text-xs leading-5 text-[#79665b]">{file.detail}</p>
+                  </div>
+                  <svg class="h-5 w-5 shrink-0 text-[#bf5d69] transition group-hover:translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                  </svg>
+                </a>
+              ))}
+            </div>
+
+            <div class="mt-8 rounded-[1.3rem] border border-[#d87982]/25 bg-[#fff3f1] p-5">
+              <p class="text-sm leading-7 text-[#5f4c42]">
+                <strong class="font-extrabold text-[#35261f]">Si tienes algún problema con la descarga,</strong> escribe a <a href="mailto:info@cynponceglz.com" class="font-bold text-[#bf5d69] underline underline-offset-4">info@cynponceglz.com</a>.
+              </p>
+            </div>
+          </>
+        ) : (
+          <div class="rounded-[1.5rem] border border-[#ead9ca] bg-[#fffdf8] p-8">
+            <p class="text-sm leading-7 text-[#5f4c42]">
+              <strong class="font-extrabold text-[#35261f]">Si ya realizaste el pago,</strong> escríbenos a{' '}
+              <a href="mailto:info@cynponceglz.com" class="font-bold text-[#bf5d69] underline underline-offset-4">info@cynponceglz.com</a>{' '}
+              con el correo que usaste al comprar y te enviamos el acceso en menos de 24 horas.
+            </p>
+          </div>
+        )}
+      </div>
+    </section>
+  </main>
+
+  {paymentVerified && (
+    <!-- ══════════════════════════════════════════════
+         TRACKING — Facebook Pixel Purchase + GTM
+         Solo se ejecuta en pago verificado
+         Producto: tarjetas-afirmaciones — NO mezclar con kit-lectoescritura
+         event_id sincronizado con CAPI server-side (namespace afirmaciones:)
+    ══════════════════════════════════════════════ -->
+    <script is:inline define:vars={{ eventId, sessionId }}>
+    (function () {
+      if (window.fbq) {
+        window.fbq('track', 'Purchase', {
+          value: 97,
+          currency: 'MXN',
+          content_name: '30 Tarjetas de Afirmaciones Positivas',
+          content_ids: ['tarjetas-afirmaciones'],
+          content_type: 'product',
+          num_items: 1,
+        }, { eventID: eventId });
+      }
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ ecommerce: null });
+      window.dataLayer.push({
+        event: 'purchase',
+        ecommerce: {
+          transaction_id: sessionId ?? '',
+          value: 97,
+          currency: 'MXN',
+          items: [{ item_id: 'tarjetas-afirmaciones', item_name: '30 Tarjetas de Afirmaciones Positivas', price: 97, quantity: 1 }],
+        },
+      });
+    })();
+    </script>
+  )}
+</BaseLayout>
