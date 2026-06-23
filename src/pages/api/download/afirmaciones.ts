@@ -36,7 +36,7 @@ export const GET: APIRoute = async ({ url }) => {
       return new Response('Pago no verificado', { status: 403 });
     }
 
-    // $97 MXN = 9700 centavos — distingue de Lectoescritura ($197 = 19700)
+    // $97 MXN = 9700 centavos
     if (session.amount_total !== 9700 || session.currency?.toLowerCase() !== 'mxn') {
       return new Response('Producto no válido para esta descarga', { status: 403 });
     }

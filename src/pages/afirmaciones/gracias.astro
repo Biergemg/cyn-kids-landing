@@ -12,7 +12,7 @@ const STRIPE_KEY  = import.meta.env.STRIPE_SECRET_KEY;
 
 const sessionId = Astro.url.searchParams.get('session_id') ?? null;
 
-// event_id con namespace propio — no puede colisionar con Lectoescritura (sha256('purchase:...'))
+// event_id con namespace afirmaciones:
 const eventId = sessionId
   ? crypto.createHash('sha256').update(`afirmaciones:${sessionId}`).digest('hex')
   : crypto.randomUUID();
@@ -252,7 +252,7 @@ const downloads = [
     <!-- ══════════════════════════════════════════════
          TRACKING — Facebook Pixel Purchase + GTM
          Solo se ejecuta en pago verificado
-         Producto: tarjetas-afirmaciones — NO mezclar con kit-lectoescritura
+         Producto: tarjetas-afirmaciones
          event_id sincronizado con CAPI server-side (namespace afirmaciones:)
     ══════════════════════════════════════════════ -->
     <script is:inline define:vars={{ eventId, sessionId }}>
