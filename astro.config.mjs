@@ -4,7 +4,7 @@ import tailwind from '@astrojs/tailwind';
 import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  adapter: vercel({ edgeMiddleware: true }),
+  adapter: vercel({ edgeMiddleware: false }),
   site: 'https://einsteinkids.cynponceglz.com',
   trailingSlash: 'never',
   build: {
