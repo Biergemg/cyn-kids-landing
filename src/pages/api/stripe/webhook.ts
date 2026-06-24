@@ -3,6 +3,8 @@ import type { APIRoute } from 'astro';
 import crypto from 'node:crypto';
 import { sendAfirmacionesEmail } from '../../../lib/email/sendAfirmacionesEmail';
 
+export const GET: APIRoute = () => new Response('Method Not Allowed', { status: 405 });
+
 // Stripe webhook signature verification (manual — no stripe npm package)
 function verifyWebhook(payload: string, sigHeader: string, secret: string): unknown {
   const parts: Record<string, string> = {};
