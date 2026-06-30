@@ -41,7 +41,7 @@ const fit = [
 const notFit = [
   'Buscas una solución terapéutica o clínica para tu peque.',
   'Quieres corregir conducta solo con frases o afirmaciones.',
-  'No estás dispuesto a acompañar con presencia y conversación.',
+  'Buscas un recurso que funcione de forma autónoma, sin tiempo dedicado junto a tu peque.',
   'Buscas un recurso físico enviado a domicilio. Este producto es digital.',
 ];
 
@@ -97,7 +97,7 @@ const steps = [
           </div>
 
           <h1 class="display max-w-3xl text-[2.6rem] font-bold leading-[1.08] tracking-[-0.04em] text-[#35261f] md:text-[4rem] lg:text-[4.5rem]">
-            30 Tarjetas de <span class="text-[#c96572]">Afirmaciones Positivas</span> para crear un ritual amoroso con tu peque
+            30 Tarjetas de <span class="text-[#c96572]">Afirmaciones Positivas</span>
           </h1>
 
           <p class="mt-7 max-w-xl text-lg leading-8 text-[#6f5b50] md:text-xl">
@@ -286,6 +286,31 @@ const steps = [
       </div>
     </section>
 
+    <!-- FAQ -->
+    <section class="bg-[#fffdf8] px-5 py-20 md:py-28">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-12 max-w-2xl">
+          <p class="text-xs font-extrabold uppercase tracking-[0.2em] text-[#bf5d69]">Preguntas frecuentes</p>
+          <h2 class="display mt-4 text-3xl font-bold leading-tight tracking-[-0.03em] text-[#35261f] md:text-5xl">
+            Antes de comprar
+          </h2>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2">
+          {[
+            ['¿Para qué edad son las tarjetas?', 'Están pensadas principalmente para niños de 2 a 8 años. Las afirmaciones están escritas en lenguaje simple y accesible para los peques.'],
+            ['¿Las puedo imprimir en casa?', 'Sí. El archivo es PDF imprimible en papel carta o A4. Puedes imprimirlas en casa y recortar, o llevarlas a una copistería si prefieres papel más grueso.'],
+            ['¿Qué recibo exactamente?', 'Un archivo PDF con las 30 tarjetas listas para imprimir. La descarga es inmediata después del pago, desde tu correo de confirmación.'],
+            ['¿Son digitales o físicas?', 'Son digitales. Las recibes como archivo para descargar, imprimir y usar en casa. No se envía ningún producto físico a domicilio.'],
+          ].map(([q, a]) => (
+            <div class="rounded-[1.4rem] border border-[#ead9ca] bg-[#fff8ee] p-6">
+              <p class="font-extrabold text-[#35261f]">{q}</p>
+              <p class="mt-3 text-sm leading-6 text-[#79665b]">{a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <!-- CTA final -->
     <section class="relative px-5 pb-28 pt-12 md:pb-32">
       <div class="mx-auto max-w-4xl rounded-[2rem] bg-[#35261f] p-7 text-center text-[#fff8ee] soft-shadow md:p-12">
@@ -304,7 +329,7 @@ const steps = [
             href={STRIPE_LINK}
             class="mt-6 inline-flex w-full items-center justify-center rounded-full bg-[#d87982] px-7 py-4 text-base font-extrabold text-[#35261f] transition duration-200 hover:-translate-y-0.5 hover:bg-[#f0b3b8] focus:outline-none focus:ring-4 focus:ring-[#d87982]/30"
           >
-            Comprar ahora
+            Quiero mis tarjetas
           </a>
         </div>
 
